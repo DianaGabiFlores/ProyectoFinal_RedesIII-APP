@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/pantallamovil1"
+    tools:context=".MainActivity">
+
+    <ImageView
+        android:id="@+id/image"
+        android:layout_width="180dp"
+        android:layout_height="180dp"
+        android:scaleType="fitXY"
+        android:layout_gravity="center"
+        android:layout_marginTop="30dp"
+        android:layout_marginBottom="20dp"
+        android:src="@drawable/logotipoblanco" />
+
+    <TextView
+        android:text="Regístrate"
+        android:textSize="20dp"
+        android:layout_gravity="center"
+        android:textAlignment="center"
+        android:textColor="@color/rosa"
+        android:textStyle="bold"
+        android:layout_width="200dp"
+        android:layout_height="30dp"/>
+
+    <EditText
+        android:id="@+id/txtUsuario"
+        android:layout_gravity="center"
+        android:textColor="@color/white"
+        android:hint="@string/nombre"
+        android:inputType="textPersonName"
+        android:layout_marginBottom="20dp"
+        android:layout_marginTop="30dp"
+        android:textColorHint="@color/gray"
+        android:background="@drawable/border"
+        android:drawableLeft="@drawable/baseline_person_24"
+        android:drawablePadding="20dp"
+        android:paddingLeft="20dp"
+        android:layout_width="300dp"
+        android:layout_height="50dp"/>
+
+    <EditText
+        android:id="@+id/txtApellidos"
+        android:layout_gravity="center"
+        android:textColor="@color/white"
+        android:hint="@string/apellido"
+        android:inputType="text"
+        android:textColorHint="@color/gray"
+        android:layout_marginBottom="20dp"
+        android:background="@drawable/border"
+        android:drawableLeft="@drawable/baseline_person_24"
+        android:drawablePadding="20dp"
+        android:paddingLeft="20dp"
+        android:layout_width="300dp"
+        android:layout_height="50dp"/>
+
+    <EditText
+        android:id="@+id/txtTelefono"
+        android:layout_gravity="center"
+        android:textColor="@color/white"
+        android:hint="@string/telefono"
+        android:inputType="phone"
+        android:layout_marginBottom="20dp"
+        android:textColorHint="@color/gray"
+        android:background="@drawable/border"
+        android:drawableLeft="@drawable/baseline_local_phone_24"
+        android:drawablePadding="20dp"
+        android:paddingLeft="20dp"
+        android:layout_width="300dp"
+        android:layout_height="50dp"/>
+
+    <EditText
+        android:id="@+id/txtEmail"
+        android:layout_gravity="center"
+        android:textColor="@color/white"
+        android:hint="@string/email"
+        android:inputType="textEmailAddress"
+        android:layout_marginBottom="20dp"
+        android:textColorHint="@color/gray"
+        android:background="@drawable/border"
+        android:drawableLeft="@drawable/baseline_email_24"
+        android:drawablePadding="20dp"
+        android:paddingLeft="20dp"
+        android:layout_width="300dp"
+        android:layout_height="50dp"/>
+
+    <EditText
+        android:id="@+id/txtContrasena"
+        android:layout_gravity="center"
+        android:textColor="@color/white"
+        android:hint="@string/contraseña"
+        android:inputType="textPassword"
+        android:textColorHint="@color/gray"
+        android:background="@drawable/border"
+        android:drawableLeft="@drawable/baseline_lock_outline_24"
+        android:drawablePadding="20dp"
+        android:paddingLeft="20dp"
+        android:layout_width="300dp"
+        android:layout_height="50dp"/>
+
+    <Button
+        android:id="@+id/btnSingIn"
+        android:layout_gravity="center"
+        android:layout_marginTop="30dp"
+        android:backgroundTint="@color/rosa"
+        android:text="@string/login"
+        android:textColor="@color/white"
+        android:layout_width="300dp"
+        android:layout_height="60dp" />
+
+
+</LinearLayout>
