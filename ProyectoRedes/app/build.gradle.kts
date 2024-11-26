@@ -5,7 +5,7 @@ plugins {
 
 android {
     namespace = "com.dgfp.proyectoredes"
-    compileSdk = 34
+    compileSdk = 35
 
     defaultConfig {
         applicationId = "com.dgfp.proyectoredes"

@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <ImageView
+        android:id="@+id/imgCafeteria"
+        android:layout_width="128dp"
+        android:layout_height="128dp"
+        android:src="@drawable/ic_launcher_background"/>
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginLeft="10dp"
+        android:gravity="center_vertical">
+
+        <TextView
+            android:id="@+id/txtNombre"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Nombre de Cafetería"
+            android:textSize="24dp"
+            android:textStyle="bold"/>
+
+        <TextView
+            android:id="@+id/txtEdificio"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Edificio de Cafetería"/>
+
+        <TextView
+            android:id="@+id/txtLocal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Local de Cafetería"/>
+
+        <TextView
+            android:id="@+id/txtHorario"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Horario de Cafetería"/>
+
+        <TextView
+            android:id="@+id/btnIniciar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Ver más..."/>
+    </LinearLayout>
+</LinearLayout>
