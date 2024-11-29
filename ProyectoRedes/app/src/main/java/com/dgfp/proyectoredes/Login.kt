@@ -1,6 +1,7 @@
 package com.dgfp.proyectoredes
 
 import android.content.Context
+import android.content.Intent
 import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.widget.ImageButton
@@ -52,7 +53,8 @@ class Login: LinearLayout {
             }
 
         } else if(v == btnCrearCuenta){
-
+            val intent = Intent(context, CrearCuenta_Inter::class.java)
+            context.startActivity(intent)
         }
     }
 }
