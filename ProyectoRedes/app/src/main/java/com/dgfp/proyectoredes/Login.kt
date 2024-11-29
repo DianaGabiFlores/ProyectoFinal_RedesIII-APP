@@ -53,7 +53,7 @@ class Login: LinearLayout {
             }
 
         } else if(v == btnCrearCuenta){
-            val intent = Intent(context, CrearCuenta_Inter::class.java)
+            val intent = Intent(context, RegistrarActivity::class.java)
             context.startActivity(intent)
         }
     }

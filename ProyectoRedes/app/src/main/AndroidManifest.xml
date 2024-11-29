@@ -23,7 +23,7 @@
         </activity>
 
         <activity
-            android:name=".CrearCuenta_Inter"
+            android:name=".RegistrarActivity"
             android:exported="false">
         </activity>
         <activity android:name=".CafeteriaActivity">
