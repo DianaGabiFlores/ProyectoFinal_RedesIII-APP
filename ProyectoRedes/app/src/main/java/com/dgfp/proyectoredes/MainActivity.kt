@@ -88,7 +88,7 @@ class MainActivity : AppCompatActivity() {
             }
 
         } else if (v == btnCrearCuenta) {
-            val intent = Intent(this, CrearCuenta_Inter::class.java)
+            val intent = Intent(this, RegistrarActivity::class.java)
             this.startActivity(intent)
         }
     }
