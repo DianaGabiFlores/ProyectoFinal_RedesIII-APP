@@ -1,7 +1,7 @@
 package com.dgfp.proyectoredes
 
 data class Usuario(
-    val Id_Usuario: Int,
+    val Id_Usuario: String,
     val Nombre: String,
     val PrimerApellido: String,
     val SegundoApellido: String,

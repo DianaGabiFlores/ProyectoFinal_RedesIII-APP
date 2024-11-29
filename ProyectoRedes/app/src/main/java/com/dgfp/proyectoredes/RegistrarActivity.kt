@@ -43,7 +43,7 @@ class RegistrarActivity : AppCompatActivity() {
             if(Nombre?.getText().toString().isNotEmpty() && Apellidos?.getText().toString().isNotEmpty() &&
                 Email?.getText().toString().isNotEmpty() && Telefono?.getText().toString().isNotEmpty() && Contrasena?.getText().toString().isNotEmpty()){
 
-
+                /*
                 //Obtener los Usuarios y verificar que no existe
                 var existeUsuario = false
                 val retrofit = Retrofit.Builder()
@@ -78,10 +78,10 @@ class RegistrarActivity : AppCompatActivity() {
                         // Manejo de error
                     }
                 })
+                */
 
 
             }
-
         }
         else if(v == btnCrearCuenta){
 
