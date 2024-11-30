@@ -30,7 +30,7 @@
         android:layout_height="30dp"/>
 
     <EditText
-        android:id="@+id/txtUsuario"
+        android:id="@+id/txtNombre"
         android:layout_gravity="center"
         android:textColor="@color/white"
         android:hint="@string/nombre"
