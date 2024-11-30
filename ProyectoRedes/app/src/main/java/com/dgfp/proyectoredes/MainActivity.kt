@@ -26,6 +26,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var btnCrearCuenta: Button
     private lateinit var txtCorreo: EditText
     private lateinit var txtContrasena: EditText
+    var db: DBSQLite = DBSQLite(this) //Base de Datos
     private var baseURL = "http://192.168.1.163:3000/"
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -85,7 +86,9 @@ class MainActivity : AppCompatActivity() {
                             if(correo == usuario.Email) {
                                 existeUsuario = true
                                 if(contrasena == usuario.Contrasena) {
-                                    //Pendiente guardar en la Base de Datos
+                                    db.insertarUsuario(usuario.Id_Usuario, usuario.Nombre, usuario.Primer_Apellido,
+                                        usuario.Segundo_Apellido, usuario.Contrasena, usuario.Telefono, usuario.Email, usuario.Tipo)
+
                                     val intent = Intent(this@MainActivity, CafeteriaActivity::class.java)
                                     startActivity(intent)
                                 }
@@ -115,5 +118,10 @@ class MainActivity : AppCompatActivity() {
         if(toast != null) toast!!.cancel()
         toast = Toast.makeText(this@MainActivity, mensaje, Toast.LENGTH_LONG)
         toast!!.show()
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        db.borrarUsuario()
     }
 }

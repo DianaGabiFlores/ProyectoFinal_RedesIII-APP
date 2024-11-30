@@ -11,10 +11,12 @@ import androidx.core.view.WindowInsetsCompat
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import java.util.Vector
 
 class CafeteriaActivity : AppCompatActivity() {
     var adaptador: CafeteriaAdapter? = null
     var datos: ArrayList<Cafeteria> = ArrayList()
+    var db: DBSQLite = DBSQLite(this) //Base de Datos
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -25,6 +27,12 @@ class CafeteriaActivity : AppCompatActivity() {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
+
+        var datosUsuario: Vector<String> = db.obtenerUsuario()
+        if(datosUsuario != null) {
+           Toast.makeText(this, "Bienvenido "+datosUsuario[1], Toast.LENGTH_LONG).show()
+        }
+
 
         val recyclerView: RecyclerView = findViewById(R.id.recyclerView)
 
