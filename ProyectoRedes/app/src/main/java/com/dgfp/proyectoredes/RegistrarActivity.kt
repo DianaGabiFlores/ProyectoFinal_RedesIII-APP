@@ -3,8 +3,11 @@ package com.dgfp.proyectoredes
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
+import android.widget.Button
+import android.widget.EditText
 import android.widget.ImageButton
 import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import retrofit2.Call
@@ -14,77 +17,121 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
 class RegistrarActivity : AppCompatActivity() {
-    var btnCrearCuenta: ImageButton? = null
-    var Nombre: TextView? = null
-    var Apellidos: TextView? = null
-    var Email: TextView? = null
-    var Telefono: TextView? = null
-    var Contrasena: TextView? = null
-
+    private var toast: Toast? = null
+    private lateinit var txtNombre: EditText
+    private lateinit var txtApellidos: EditText
+    private lateinit var txtTelefono: EditText
+    private lateinit var txtCorreo: EditText
+    private lateinit var txtContrasena: EditText
+    private lateinit var btnCrearCuenta: EditText
+    var db: DBSQLite = DBSQLite(this) //Base de Datos
+    private var baseURL = "http://192.168.1.163:3000/"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.crear_cuenta)
 
+        txtNombre = findViewById(R.id.txtNombre)
+        txtApellidos = findViewById(R.id.txtApellidos)
+        txtTelefono = findViewById(R.id.txtTelefono)
+        txtCorreo = findViewById(R.id.txtEmail)
+        txtContrasena = findViewById(R.id.txtContrasena)
         btnCrearCuenta = findViewById(R.id.btnSingIn)
-        Nombre = findViewById(R.id.txtUsuario)
-        Apellidos = findViewById(R.id.txtApellidos)
-        Email = findViewById(R.id.txtEmail)
-        Telefono = findViewById(R.id.txtTelefono)
-        Contrasena = findViewById(R.id.txtContrasena)
 
         //Listener
-        btnCrearCuenta!!.setOnClickListener(evento)
+        btnCrearCuenta.setOnClickListener(evento)
     }
 
 
     private val evento = View.OnClickListener { v ->
-        if(v == btnCrearCuenta){
-            if(Nombre?.getText().toString().isNotEmpty() && Apellidos?.getText().toString().isNotEmpty() &&
-                Email?.getText().toString().isNotEmpty() && Telefono?.getText().toString().isNotEmpty() && Contrasena?.getText().toString().isNotEmpty()){
+        if(v == btnCrearCuenta) {
+            val correo = txtCorreo.text.toString().trim()
+            val contrasena = txtContrasena.text.toString().trim()
 
+            if(txtNombre.text.toString().isNotEmpty() && txtApellidos.text.isNotEmpty() && txtTelefono.text.isNotEmpty() &&
+               correo.isNotEmpty() && contrasena.isNotEmpty()) {
+                registrarUsuario(correo, contrasena)
+            }
+            else {
+                if(txtNombre.text.toString().isEmpty()) mostrarToast("Ingresar Nombre.")
+                else if(txtApellidos.text.toString().isEmpty()) mostrarToast("Ingresar Apellidos.")
+                else if(txtTelefono.text.toString().isEmpty()) mostrarToast("Ingresar Teléfono.")
+                else if(correo.isEmpty()) mostrarToast("Ingresar Correo.")
+                else if(contrasena.isEmpty()) mostrarToast("Ingresar Contraseña.")
+            }
+        }
+    }
 
-                //Obtener los Usuarios y verificar que no existe
-                var existeUsuario = false
-                val retrofit = Retrofit.Builder()
-                    .baseUrl("192.168.1.0:3000/usuarios")
-                    .addConverterFactory(GsonConverterFactory.create())
-                    .build()
-                val apiService = retrofit.create(APIServiceUsuario::class.java)
-                apiService.getPostsUsuarios().enqueue(object : Callback<List<Usuario>> {
-                    override fun onResponse(call: Call<List<Usuario>>, response: Response<List<Usuario>>) {
-                        if (response.isSuccessful) {
-                            val usuarios = response.body()
-
-                            if(usuarios != null) {
-                                for(usuario in usuarios) {
-                                    if(Email!!.getText().toString() == usuario.Email ) {
-                                        existeUsuario = true
-                                        return
-                                    }
-                                }
-                            }
-
-                            if(!existeUsuario) {
-                                //Mandar a Insertar a NodeJS
-
-                                val intent = Intent(this@RegistrarActivity, CafeteriaActivity::class.java)
-                                startActivity(intent)
+    fun registrarUsuario(correo: String, contrasena: String) {
+        //Obtener todos los usuarios
+        val retrofit = Retrofit.Builder()
+            .baseUrl(baseURL)
+            .addConverterFactory(GsonConverterFactory.create())
+            .build()
+        val apiService = retrofit.create(APIServiceUsuario::class.java)
+        apiService.getPostsUsuarios().enqueue(object : Callback<List<Usuario>> {
+            override fun onResponse(call: Call<List<Usuario>>, response: Response<List<Usuario>>) {
+                if(response.isSuccessful) {
+                    val usuarios = response.body()
+                    if(usuarios != null) {
+                        var existeUsuario = false
+                        for(usuario in usuarios) {
+                            if(correo == usuario.Email) {
+                                existeUsuario = true
                             }
                         }
+                        if(existeUsuario) {
+                            txtNombre.setText("")
+                            txtApellidos.setText("")
+                            txtTelefono.setText("")
+                            txtCorreo.setText("")
+                            txtContrasena.setText("")
+                            mostrarToast("El correo ya está registrado.")
+                        }
+                        else {
+                            //Registrar
+                            val usuarioNuevo = Usuario(
+                                Id_Usuario = "5",
+                                Nombre = txtNombre.text.toString().trim(),
+                                Primer_Apellido = txtApellidos.text.toString().trim(),
+                                Segundo_Apellido = txtApellidos.text.toString().trim(),
+                                Contrasena = contrasena,
+                                Email = correo,
+                                Telefono = txtTelefono.text.toString().trim(),
+                                Tipo = "Cliente"
+                            )
+
+                            apiService.crearUsuario(usuarioNuevo).enqueue(object : Callback<Usuario> {
+                                override fun onResponse(call: Call<Usuario>, response: Response<Usuario>) {
+                                    if(response.isSuccessful) {
+                                        mostrarToast("Usuario registrado.")
+                                        val intent = Intent(this@RegistrarActivity, MainActivity::class.java)
+                                        startActivity(intent)
+                                        this@RegistrarActivity.finish()
+                                    }
+                                    else {
+                                        mostrarToast("Error al registrar el usuario: " + response.code())
+                                    }
+                                }
+
+                                override fun onFailure(call: Call<Usuario>, t: Throwable) {
+                                    mostrarToast("Error de conexión: ${t.message}")
+                                }
+                            })
+                        }
                     }
-
-                    override fun onFailure(call: Call<List<Usuario>>, t: Throwable) {
-                        // Manejo de error
-                    }
-                })
-
-
+                }
             }
+            override fun onFailure(call: Call<List<Usuario>>, t: Throwable) {
+                //Manejo de error
+                mostrarToast("Error de conexión: " + t.message)
+            }
+        })
+    }
 
-        }
-        else if(v == btnCrearCuenta){
-
-        }
+    fun mostrarToast(mensaje: String) {
+        if(toast != null) toast!!.cancel()
+        toast = Toast.makeText(this@RegistrarActivity, mensaje, Toast.LENGTH_LONG)
+        toast!!.show()
     }
 }
