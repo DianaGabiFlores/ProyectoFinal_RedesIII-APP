@@ -3,13 +3,9 @@ package com.dgfp.proyectoredes
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
-import android.widget.Button
 import android.widget.EditText
-import android.widget.ImageButton
-import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.content.ContextCompat
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -50,7 +46,7 @@ class RegistrarActivity : AppCompatActivity() {
 
             if(txtNombre.text.toString().isNotEmpty() && txtApellidos.text.isNotEmpty() && txtTelefono.text.isNotEmpty() &&
                correo.isNotEmpty() && contrasena.isNotEmpty()) {
-                registrarUsuario(correo, contrasena)
+                //registrarUsuario(correo, contrasena)
             }
             else {
                 if(txtNombre.text.toString().isEmpty()) mostrarToast("Ingresar Nombre.")
@@ -61,7 +57,7 @@ class RegistrarActivity : AppCompatActivity() {
             }
         }
     }
-
+    /*
     fun registrarUsuario(correo: String, contrasena: String) {
         //Obtener todos los usuarios
         val retrofit = Retrofit.Builder()
@@ -69,8 +65,8 @@ class RegistrarActivity : AppCompatActivity() {
             .addConverterFactory(GsonConverterFactory.create())
             .build()
         val apiService = retrofit.create(APIServiceUsuario::class.java)
-        apiService.getPostsUsuarios().enqueue(object : Callback<List<Usuario>> {
-            override fun onResponse(call: Call<List<Usuario>>, response: Response<List<Usuario>>) {
+        apiService.getPostsUsuarios().enqueue(object : Callback<List<DCUsuario>> {
+            override fun onResponse(call: Call<List<DCUsuario>>, response: Response<List<DCUsuario>>) {
                 if(response.isSuccessful) {
                     val usuarios = response.body()
                     if(usuarios != null) {
@@ -90,7 +86,7 @@ class RegistrarActivity : AppCompatActivity() {
                         }
                         else {
                             //Registrar
-                            val usuarioNuevo = Usuario(
+                            val usuarioNuevo = DCUsuario(
                                 Id_Usuario = "5",
                                 Nombre = txtNombre.text.toString().trim(),
                                 Primer_Apellido = txtApellidos.text.toString().trim(),
@@ -101,8 +97,8 @@ class RegistrarActivity : AppCompatActivity() {
                                 Tipo = "Cliente"
                             )
 
-                            apiService.crearUsuario(usuarioNuevo).enqueue(object : Callback<Usuario> {
-                                override fun onResponse(call: Call<Usuario>, response: Response<Usuario>) {
+                            apiService.crearUsuario(usuarioNuevo).enqueue(object : Callback<DCUsuario> {
+                                override fun onResponse(call: Call<DCUsuario>, response: Response<DCUsuario>) {
                                     if(response.isSuccessful) {
                                         mostrarToast("Usuario registrado.")
                                         val intent = Intent(this@RegistrarActivity, MainActivity::class.java)
@@ -114,7 +110,7 @@ class RegistrarActivity : AppCompatActivity() {
                                     }
                                 }
 
-                                override fun onFailure(call: Call<Usuario>, t: Throwable) {
+                                override fun onFailure(call: Call<DCUsuario>, t: Throwable) {
                                     mostrarToast("Error de conexión: ${t.message}")
                                 }
                             })
@@ -122,12 +118,13 @@ class RegistrarActivity : AppCompatActivity() {
                     }
                 }
             }
-            override fun onFailure(call: Call<List<Usuario>>, t: Throwable) {
+            override fun onFailure(call: Call<List<DCUsuario>>, t: Throwable) {
                 //Manejo de error
                 mostrarToast("Error de conexión: " + t.message)
             }
         })
     }
+    */
 
     fun mostrarToast(mensaje: String) {
         if(toast != null) toast!!.cancel()

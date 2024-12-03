@@ -1,19 +1,16 @@
 package com.dgfp.proyectoredes
 
-import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import android.widget.Button
 import android.widget.EditText
-import android.widget.ImageButton
-import android.widget.ImageView
-import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import org.json.JSONObject
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -69,6 +66,7 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    /*Es inseguro recibir todos los usuarios y contraseñas, es mejor enviar el usuario y contraseña
     fun login(correo: String, contrasena: String) {
         //Obtener todos los usuarios
         val retrofit = Retrofit.Builder()
@@ -110,6 +108,53 @@ class MainActivity : AppCompatActivity() {
             override fun onFailure(call: Call<List<Usuario>>, t: Throwable) {
                 //Manejo de error
                 mostrarToast("Error de conexión: " + t.message)
+            }
+        })
+    }
+    */
+
+    fun login(correo: String, contrasena: String) {
+        val retrofit = Retrofit.Builder()
+            .baseUrl(baseURL)
+            .addConverterFactory(GsonConverterFactory.create())
+            .build()
+        val apiService = retrofit.create(APIServiceUsuario::class.java)
+
+        val objUsuario = DCUsuarioLlaves(
+            Correo = correo,
+            Contrasena = contrasena
+        )
+
+        apiService.loginUsuario(objUsuario).enqueue(object : Callback<DCLoginResponse> {
+            override fun onResponse(call: Call<DCLoginResponse>, response: Response<DCLoginResponse>) {
+                if(response.isSuccessful) {
+                    val usuario = response.body()!!.usuario
+
+                    //Guardar en la BD
+                    db.insertarUsuario(usuario!!.Id_Usuario, usuario.Nombre, usuario.Primer_Apellido,
+                        usuario.Segundo_Apellido, contrasena, usuario.Telefono, correo, usuario.Tipo)
+                    val intent = Intent(this@MainActivity, CafeteriaActivity::class.java)
+                    startActivity(intent)
+                }
+                else {
+                    //mostrarToast("Error: " + response.code())
+
+                    val errorBody = response.errorBody()?.string()
+                    val message =
+                    if(errorBody != null) {
+                        JSONObject(errorBody).optString("message", "Error desconocido")
+                    }
+                    else {
+                        "Error desconocido"
+                    }
+                    mostrarToast(message)
+                    txtCorreo.setText("")
+                    txtContrasena.setText("")
+                }
+            }
+
+            override fun onFailure(call: Call<DCLoginResponse>, t: Throwable) {
+                mostrarToast("Error de conexión: ${t.message}")
             }
         })
     }
