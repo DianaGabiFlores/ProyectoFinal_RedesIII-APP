@@ -9,6 +9,6 @@ interface APIServiceUsuario {
     @GET("usuarios")
     fun getPostsUsuarios(): Call<List<Usuario>>
 
-    @POST("usuarios")
+    @POST("usuario/nuevo")
     fun crearUsuario(@Body usuario: Usuario): Call<Usuario>
 }

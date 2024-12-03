@@ -23,6 +23,7 @@
     <TextView
         android:text="Sign In"
         android:textSize="20dp"
+        android:layout_marginTop="20dp"
         android:layout_gravity="center"
         android:textAlignment="center"
         android:textColor="@color/rosa"
@@ -34,9 +35,7 @@
         android:id="@+id/txtCorreo"
         android:layout_gravity="center"
         android:textColor="@color/gray"
-        android:hint="@string/usuario"
-        android:inputType="textPersonName"
-        android:hint="@string/correo"
+        android:hint="Correo"
         android:inputType="textEmailAddress"
         android:layout_marginBottom="20dp"
         android:layout_marginTop="30dp"

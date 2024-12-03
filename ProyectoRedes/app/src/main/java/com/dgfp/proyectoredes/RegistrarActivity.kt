@@ -2,6 +2,7 @@ package com.dgfp.proyectoredes
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.Button
 import android.widget.EditText
@@ -19,26 +20,29 @@ import retrofit2.converter.gson.GsonConverterFactory
 class RegistrarActivity : AppCompatActivity() {
     private var toast: Toast? = null
     private lateinit var txtNombre: EditText
-    private lateinit var txtApellidos: EditText
+    private lateinit var txtApellidoP: EditText
+    private lateinit var txtApellidoM: EditText
     private lateinit var txtTelefono: EditText
     private lateinit var txtCorreo: EditText
     private lateinit var txtContrasena: EditText
-    private lateinit var btnCrearCuenta: EditText
+    private lateinit var btnCrearCuenta: Button
+
     var db: DBSQLite = DBSQLite(this) //Base de Datos
-    private var baseURL = "http://192.168.1.163:3000/"
+    private var baseURL = "http://192.168.100.53:3000/"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.crear_cuenta)
 
         txtNombre = findViewById(R.id.txtNombre)
-        txtApellidos = findViewById(R.id.txtApellidos)
+        txtApellidoP = findViewById(R.id.txtApellidoP)
+        txtApellidoM = findViewById(R.id.txtApellidoM)
         txtTelefono = findViewById(R.id.txtTelefono)
         txtCorreo = findViewById(R.id.txtEmail)
         txtContrasena = findViewById(R.id.txtContrasena)
         btnCrearCuenta = findViewById(R.id.btnSingIn)
 
-        //Listener
+//        //Listener
         btnCrearCuenta.setOnClickListener(evento)
     }
 
@@ -48,13 +52,14 @@ class RegistrarActivity : AppCompatActivity() {
             val correo = txtCorreo.text.toString().trim()
             val contrasena = txtContrasena.text.toString().trim()
 
-            if(txtNombre.text.toString().isNotEmpty() && txtApellidos.text.isNotEmpty() && txtTelefono.text.isNotEmpty() &&
+            if(txtNombre.text.toString().isNotEmpty() && txtApellidoP.text.isNotEmpty() && txtApellidoM.text.isNotEmpty() && txtTelefono.text.isNotEmpty() &&
                correo.isNotEmpty() && contrasena.isNotEmpty()) {
                 registrarUsuario(correo, contrasena)
             }
             else {
                 if(txtNombre.text.toString().isEmpty()) mostrarToast("Ingresar Nombre.")
-                else if(txtApellidos.text.toString().isEmpty()) mostrarToast("Ingresar Apellidos.")
+                else if(txtApellidoP.text.toString().isEmpty()) mostrarToast("Ingresar Apellido Paterno.")
+                else if(txtApellidoM.text.toString().isEmpty()) mostrarToast("Ingresar Apellidos Materno.")
                 else if(txtTelefono.text.toString().isEmpty()) mostrarToast("Ingresar Teléfono.")
                 else if(correo.isEmpty()) mostrarToast("Ingresar Correo.")
                 else if(contrasena.isEmpty()) mostrarToast("Ingresar Contraseña.")
@@ -82,7 +87,8 @@ class RegistrarActivity : AppCompatActivity() {
                         }
                         if(existeUsuario) {
                             txtNombre.setText("")
-                            txtApellidos.setText("")
+                            txtApellidoP.setText("")
+                            txtApellidoM.setText("")
                             txtTelefono.setText("")
                             txtCorreo.setText("")
                             txtContrasena.setText("")
@@ -93,13 +99,14 @@ class RegistrarActivity : AppCompatActivity() {
                             val usuarioNuevo = Usuario(
                                 Id_Usuario = "5",
                                 Nombre = txtNombre.text.toString().trim(),
-                                Primer_Apellido = txtApellidos.text.toString().trim(),
-                                Segundo_Apellido = txtApellidos.text.toString().trim(),
+                                Primer_Apellido = txtApellidoP.text.toString().trim(),
+                                Segundo_Apellido = txtApellidoM.text.toString().trim(),
                                 Contrasena = contrasena,
                                 Email = correo,
                                 Telefono = txtTelefono.text.toString().trim(),
                                 Tipo = "Cliente"
                             )
+                            Log.d("Usuario", "$usuarioNuevo")
 
                             apiService.crearUsuario(usuarioNuevo).enqueue(object : Callback<Usuario> {
                                 override fun onResponse(call: Call<Usuario>, response: Response<Usuario>) {
