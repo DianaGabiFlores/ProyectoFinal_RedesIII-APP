@@ -30,7 +30,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var txtCorreo: EditText
     private lateinit var txtContrasena: EditText
     var db: DBSQLite = DBSQLite(this) //Base de Datos
-    private var baseURL = "http://192.168.1.163:3000/"
+    private var baseURL = "http://172.16.156.146:3000/"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

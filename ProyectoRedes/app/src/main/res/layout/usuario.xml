@@ -20,7 +20,7 @@
 
         <TextView
             android:id="@+id/tipoUser"
-            android:text="Tipo Usuario"
+            android:text="Tipo: "
             android:textAlignment="center"
             android:textSize="25dp"
             android:layout_gravity="center_horizontal"

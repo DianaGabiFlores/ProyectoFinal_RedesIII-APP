@@ -28,7 +28,7 @@ class RegistrarActivity : AppCompatActivity() {
     private lateinit var btnCrearCuenta: Button
 
     var db: DBSQLite = DBSQLite(this) //Base de Datos
-    private var baseURL = "http://192.168.100.53:3000/"
+    private var baseURL = "http://172.16.156.146:3000/"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
