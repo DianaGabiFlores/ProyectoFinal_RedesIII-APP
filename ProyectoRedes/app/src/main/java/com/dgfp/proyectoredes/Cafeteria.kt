@@ -2,10 +2,11 @@ package com.dgfp.proyectoredes
 
 class Cafeteria {
     private var imagen: Int
-    private var nombre: String
-    private var edificio: String
-    private var local: String
+    private var nombreCafeteria: String
+    private var nombreSucursal: String? = null //Norte, Sur, Central
     private var horario: String
+    private var local: String
+    private var edificio: String
     companion object { //Static en Java
         var nCafeteria = 0
     }
@@ -14,15 +15,19 @@ class Cafeteria {
     constructor() {
         nCafeteria++
         this.imagen = R.drawable.ic_launcher_background
-        this.nombre = "Nombre" + nCafeteria
+        this.nombreCafeteria = "Nombre Cafetería" + nCafeteria
+        this.nombreSucursal = "Nombre Sucursal" + nCafeteria
         this.edificio = "Edificio" + nCafeteria
         this.local = "Local" + nCafeteria
         this.horario = "Horario" + nCafeteria
     }
 
-    constructor(imagen: Int, nombre: String, edificio: String, local: String, horario: String) {
+    constructor(imagen: Int, nombreCafeteria: String, nombreSucursal: String?, edificio: String, local: String, horario: String) {
         this.imagen = imagen
-        this.nombre = nombre
+        this.nombreCafeteria = nombreCafeteria
+        if(nombreSucursal != null) {
+            this.nombreSucursal = nombreSucursal
+        }
         this.edificio = edificio
         this.local = local
         this.horario = horario
@@ -35,11 +40,18 @@ class Cafeteria {
         this.imagen = imagen
     }
 
-    fun getNombre(): String {
-        return nombre
+    fun getNombreCaferia(): String {
+        return nombreCafeteria
     }
-    fun setNombre(nombre: String) {
-        this.nombre = nombre
+    fun setNombreCafeteria(nombreCafeteria: String) {
+        this.nombreCafeteria = nombreCafeteria
+    }
+
+    fun getNombreSucursal(): String? {
+        return nombreSucursal
+    }
+    fun setNombreSucursal(nombreSucursal: String) {
+        this.nombreSucursal = nombreSucursal
     }
 
     fun getEdificio(): String {

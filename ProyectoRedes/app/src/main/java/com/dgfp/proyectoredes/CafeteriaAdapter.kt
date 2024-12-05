@@ -37,7 +37,7 @@ class CafeteriaAdapter : RecyclerView.Adapter<CafeteriaAdapter.CafeteriaViewHold
 
         fun bindCafeteria(cafeteria: Cafeteria, listener: OnItemClickListener?) {
             imgCafeteria.setImageResource(cafeteria.getImagen())
-            txtNombre.setText(cafeteria.getNombre())
+            txtNombre.setText(cafeteria.getNombreCaferia())
             txtEdificio.setText(cafeteria.getEdificio())
             txtLocal.setText(cafeteria.getLocal())
             txtHorario.setText(cafeteria.getHorario())

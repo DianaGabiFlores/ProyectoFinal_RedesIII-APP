@@ -11,12 +11,19 @@ import androidx.core.view.WindowInsetsCompat
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
+import retrofit2.Retrofit
+import retrofit2.converter.gson.GsonConverterFactory
 import java.util.Vector
 
 class CafeteriaActivity : AppCompatActivity() {
+    private var toast: Toast? = null
     var adaptador: CafeteriaAdapter? = null
     var datos: ArrayList<Cafeteria> = ArrayList()
     var db: DBSQLite = DBSQLite(this) //Base de Datos
+    private var baseURL = "http://192.168.1.163:3000/"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -28,25 +35,29 @@ class CafeteriaActivity : AppCompatActivity() {
             insets
         }
 
+        //Verificar que se obtuviron los datos del usuario
         var datosUsuario: Vector<String> = db.obtenerUsuario()
         if(datosUsuario != null) {
            Toast.makeText(this, "Bienvenido "+datosUsuario[1], Toast.LENGTH_LONG).show()
         }
 
-
         val recyclerView: RecyclerView = findViewById(R.id.recyclerView)
 
+        //Prueba
+        /*
         val n = 50
         for (i in 0 until n) {
             datos.add(Cafeteria())
         }
+        */
+        obtenerCafeterias()
 
-        //Listener //Ayuda aquí Claude, me da error
+        //Listener
         adaptador = CafeteriaAdapter(datos, object : CafeteriaAdapter.OnItemClickListener {
             override fun onItemClick(item: Cafeteria) {
-                Toast.makeText(applicationContext, "Cafetería: " + item.getNombre(), Toast.LENGTH_SHORT).show()
+                Toast.makeText(applicationContext, "Cafetería: " + item.getNombreCaferia(), Toast.LENGTH_SHORT).show()
                 val intent = Intent(baseContext, ComidaActivity::class.java)
-                intent.putExtra("cafeteria", ""+item.getNombre())
+                intent.putExtra("cafeteria", ""+item.getNombreCaferia())
                 startActivity(intent)
             }
         })
@@ -59,6 +70,49 @@ class CafeteriaActivity : AppCompatActivity() {
         recyclerView.addItemDecoration(DividerItemDecoration(this, DividerItemDecoration.HORIZONTAL))
 
         recyclerView.adapter = adaptador
+    }
+
+    //Obtener todas las cafeterías
+    fun obtenerCafeterias() {
+        val retrofit = Retrofit.Builder()
+            .baseUrl(baseURL)
+            .addConverterFactory(GsonConverterFactory.create())
+            .build()
+        val apiService = retrofit.create(APIServiceCafeteria::class.java)
+
+        apiService.getCafeterias().enqueue(object : Callback<List<DCCafeteria>> {
+            override fun onResponse(call: Call<List<DCCafeteria>>, response: Response<List<DCCafeteria>>) {
+                if(response.isSuccessful) {
+                    val cafeterias = response.body()
+
+                    if(cafeterias != null) {
+                        for(cafeteria in cafeterias) {
+                            for(sucursal in cafeteria.Sucursales) {
+                                val objCafeteria = Cafeteria(
+                                    R.drawable.ic_launcher_background,
+                                    cafeteria.Nombre,
+                                    sucursal.Nombre,
+                                    sucursal.Horario,
+                                    sucursal.Numero_Local,
+                                    sucursal.Edificio
+                                )
+                                datos.add(objCafeteria)
+                            }
+                        }
+                    }
+                }
+            }
+            override fun onFailure(call: Call<List<DCCafeteria>>, t: Throwable) {
+                //Manejo de error
+                mostrarToast("Error de conexión: " + t.message)
+            }
+        })
+    }
+
+    fun mostrarToast(mensaje: String) {
+        if(toast != null) toast!!.cancel()
+        toast = Toast.makeText(this@CafeteriaActivity, mensaje, Toast.LENGTH_LONG)
+        toast!!.show()
     }
 
     fun cerarActividad() {
