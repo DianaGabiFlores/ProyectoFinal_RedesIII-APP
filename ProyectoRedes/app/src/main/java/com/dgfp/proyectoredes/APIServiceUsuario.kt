@@ -6,7 +6,7 @@ import retrofit2.http.POST
 
 interface APIServiceUsuario {
     @POST("login")
-    fun loginUsuario(@Body usuario: DCUsuarioLlaves): Call<List<DCLoginResponse>>
+    fun loginUsuario(@Body usuario: DCUsuarioLlaves): Call<DCLoginResponse>
 
     @POST("usuario/nuevo")
     fun crearUsuario(@Body usuario: DCUsuario): Call<DCUsuario>

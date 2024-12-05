@@ -66,8 +66,8 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    //Es inseguro recibir todos los usuarios y contraseñas, es mejor enviar el usuario y contraseña por método post
     /*
-    //Es inseguro recibir todos los usuarios y contraseñas, es mejor enviar el usuario y contraseña
     fun login(correo: String, contrasena: String) {
         //Obtener todos los usuarios
         val retrofit = Retrofit.Builder()
@@ -126,36 +126,42 @@ class MainActivity : AppCompatActivity() {
             Contrasena = contrasena
         )
 
-        apiService.loginUsuario(objUsuario).enqueue(object : Callback<List<DCLoginResponse>> {
-            override fun onResponse(call: Call<List<DCLoginResponse>>, response: Response<List<DCLoginResponse>>) {
-                if(response.isSuccessful) {
-                    //val usuario = response.body()!!.usuario
+        apiService.loginUsuario(objUsuario).enqueue(object : Callback<DCLoginResponse> {
+            override fun onResponse(call: Call<DCLoginResponse>, response: Response<DCLoginResponse>) {
+                val codigo = response.code()
 
-                    /*
-                    //Guardar en la BD
-                    db.insertarUsuario(usuario!!.Id_Usuario, usuario.Nombre, usuario.Primer_Apellido,
-                        usuario.Segundo_Apellido, contrasena, usuario.Telefono, correo, usuario.Tipo)
-                    val intent = Intent(this@MainActivity, CafeteriaActivity::class.java)
-                    startActivity(intent)*/
-                }
-                else {
-                    //mostrarToast("Error: " + response.code())
-                    /*
-                    val errorBody = response.errorBody()?.string()
-                    val message =
-                    if(errorBody != null) {
-                        JSONObject(errorBody).optString("message", "Error desconocido")
+                //La respuesta HTTP tiene un código en el rango 200 y 299, 404, 401
+                if(response.isSuccessful || codigo == 404 || codigo == 401) {
+                    val respuesta = response.body()
+
+                    if(respuesta != null) { //Inicio de sesión exitoso
+                        if(respuesta.success) {
+                            //mostrarToast(respuesta.message)
+                            val usuario: DCUsuario = respuesta.usuario!!
+
+                            //Guardar en la BD
+                            db.insertarUsuario(usuario.Id_Usuario, usuario.Nombre, usuario.Primer_Apellido,
+                                usuario.Segundo_Apellido, contrasena, usuario.Telefono, correo, usuario.Tipo)
+                            val intent = Intent(this@MainActivity, CafeteriaActivity::class.java)
+                            startActivity(intent)
+                        }
                     }
-                    else {
-                        "Error desconocido"
+
+                    //El correo no está registrado.
+                    if(codigo == 404) {
+                        mostrarToast("El correo no está registrado.")
+                        txtCorreo.setText("")
+                        txtContrasena.setText("")
                     }
-                    mostrarToast(message)
-                    txtCorreo.setText("")
-                    txtContrasena.setText("")*/
+                    //Contraseña incorrecta.
+                    if(codigo == 401) {
+                        mostrarToast("Contraseña incorrecta.")
+                        txtContrasena.setText("")
+                    }
                 }
             }
 
-            override fun onFailure(call: Call<List<DCLoginResponse>>, t: Throwable) {
+            override fun onFailure(call: Call<DCLoginResponse>, t: Throwable) {
                 //Manejo de error
                 mostrarToast("Error de conexión: " + t.message)
             }
