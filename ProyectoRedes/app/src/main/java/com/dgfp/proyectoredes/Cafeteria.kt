@@ -23,6 +23,7 @@ class Cafeteria {
     }
 
     constructor(imagen: Int, nombreCafeteria: String, nombreSucursal: String?, edificio: String, local: String, horario: String) {
+        nCafeteria++
         this.imagen = imagen
         this.nombreCafeteria = nombreCafeteria
         if(nombreSucursal != null) {
@@ -73,5 +74,9 @@ class Cafeteria {
     }
     fun setHorario(horario: String) {
         this.horario = horario
+    }
+
+    fun getNCafeteria(): Int {
+        return nCafeteria
     }
 }

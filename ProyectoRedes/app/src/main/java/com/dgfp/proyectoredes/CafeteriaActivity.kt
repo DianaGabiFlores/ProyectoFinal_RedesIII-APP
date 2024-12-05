@@ -43,14 +43,13 @@ class CafeteriaActivity : AppCompatActivity() {
 
         val recyclerView: RecyclerView = findViewById(R.id.recyclerView)
 
-        //Prueba
+        obtenerCafeterias()
         /*
         val n = 50
         for (i in 0 until n) {
             datos.add(Cafeteria())
         }
         */
-        obtenerCafeterias()
 
         //Listener
         adaptador = CafeteriaAdapter(datos, object : CafeteriaAdapter.OnItemClickListener {
@@ -84,19 +83,24 @@ class CafeteriaActivity : AppCompatActivity() {
             override fun onResponse(call: Call<List<DCCafeteria>>, response: Response<List<DCCafeteria>>) {
                 if(response.isSuccessful) {
                     val cafeterias = response.body()
-
                     if(cafeterias != null) {
+                        datos.clear()
+
                         for(cafeteria in cafeterias) {
                             for(sucursal in cafeteria.Sucursales) {
-                                val objCafeteria = Cafeteria(
-                                    R.drawable.ic_launcher_background,
-                                    cafeteria.Nombre,
-                                    sucursal.Nombre,
-                                    sucursal.Horario,
-                                    sucursal.Numero_Local,
-                                    sucursal.Edificio
+                                datos.add(
+                                    Cafeteria(
+                                        R.drawable.ic_launcher_background,
+                                        cafeteria.Nombre,
+                                        sucursal.Nombre,
+                                        sucursal.Edificio,
+                                        sucursal.Numero_Local,
+                                        sucursal.Horario
+                                    )
                                 )
-                                datos.add(objCafeteria)
+                            }
+                            runOnUiThread {
+                                adaptador?.notifyDataSetChanged()
                             }
                         }
                     }
