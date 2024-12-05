@@ -21,8 +21,7 @@ import java.util.Vector
 class UsuarioActivity: AppCompatActivity() {
 
     var Nombre: TextView? = null
-    var ApellidoP: TextView? = null
-    var ApellidoM: TextView? = null
+    var Apellidos: TextView? = null
     var Email: TextView? = null
     var Telefono: TextView? = null
     var Tipo: TextView? = null
@@ -42,16 +41,18 @@ class UsuarioActivity: AppCompatActivity() {
         Email = findViewById(R.id.email)
         Telefono = findViewById(R.id.telefono)
         Tipo = findViewById(R.id.tipoUser)
-//        ApellidoP = findViewById(R.id.btnLogin)
+        Apellidos = findViewById(R.id.apellidos)
 //        ApellidoM = findViewById(R.id.btnLogin)
 //
         var datosUsuario: Vector<String> = db.obtenerUsuario()
         if(datosUsuario != null) {
             Toast.makeText(this, "Bienvenido "+datosUsuario[1], Toast.LENGTH_LONG).show()
             Nombre?.setText(datosUsuario[1])
+            Apellidos?.setText(datosUsuario[2] + " " + datosUsuario[3])
             Email?.setText(datosUsuario[6])
             Telefono?.setText(datosUsuario[5])
             Tipo?.append(datosUsuario[7])
+
 
         }
 

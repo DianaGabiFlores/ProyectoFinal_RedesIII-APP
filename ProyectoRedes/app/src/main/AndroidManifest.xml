@@ -52,6 +52,9 @@
 
         <activity android:name=".OrdenarActivity">
         </activity>
+
+        <activity android:name=".PedidosCActivity">
+        </activity>
     </application>
 
 </manifest>

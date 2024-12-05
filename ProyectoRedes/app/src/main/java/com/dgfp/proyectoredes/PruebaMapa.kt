@@ -41,14 +41,33 @@ class PruebaMapa : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMyLocati
     }
 
     private fun createMarker(){
-        val coordinates = LatLng(21.91391109333604, -102.31010644930754)
-        val marker: MarkerOptions = MarkerOptions().position(coordinates).title("Casa")
-        map.addMarker(marker)
-        map.animateCamera(
-            CameraUpdateFactory.newLatLngZoom(coordinates, 18f),
-            4000,
-            null
-        )
+//        val coordinates = LatLng(21.91391109333604, -102.31010644930754)
+//        val marker: MarkerOptions = MarkerOptions().position(coordinates).title("Casa")
+
+        val cafeteria1 = LatLng(21.909982836966822, -102.31501933620224)
+        val marker1: MarkerOptions = MarkerOptions().position(cafeteria1).title("Cafetería Central")
+
+        val cafeteria2 = LatLng(21.91334784841098, -102.31774259167877)
+        val marker2: MarkerOptions = MarkerOptions().position(cafeteria2).title("Cafetería Sur")
+
+        val cafeteria3 = LatLng(21.917176584552784, -102.31929890583075)
+        val marker3: MarkerOptions = MarkerOptions().position(cafeteria3).title("Cafetería Norte")
+
+        val cafeteria4 = LatLng(21.91415108886858, -102.31462663087439)
+        val marker4: MarkerOptions = MarkerOptions().position(cafeteria4).title("Comedor Universitario")
+
+//        map.addMarker(marker)
+        map.addMarker(marker1)
+        map.addMarker(marker2)
+        map.addMarker(marker3)
+        map.addMarker(marker4)
+
+
+//        map.animateCamera(
+//            CameraUpdateFactory.newLatLngZoom(coordinates, 18f),
+//            4000,
+//            null
+//        )
     }
 
     private fun isPermissionsGranted() = ContextCompat.checkSelfPermission(
@@ -163,6 +182,7 @@ class PruebaMapa : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMyLocati
     override fun onMyLocationButtonClick(): Boolean {
        return false
     }
+
 
 
 }

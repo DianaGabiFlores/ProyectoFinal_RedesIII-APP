@@ -11,4 +11,7 @@ interface APIServiceUsuario {
 
     @POST("usuario/nuevo")
     fun crearUsuario(@Body usuario: Usuario): Call<Usuario>
+
+    @POST("pedidos")
+    fun getPedidos(@Body user: DCUser): Call<List<PedidosInfo>>
 }
