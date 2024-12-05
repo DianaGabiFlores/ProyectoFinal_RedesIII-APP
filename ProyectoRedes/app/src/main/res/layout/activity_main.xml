@@ -23,6 +23,7 @@
     <TextView
         android:text="Sign In"
         android:textSize="20dp"
+        android:layout_marginTop="20dp"
         android:layout_gravity="center"
         android:textAlignment="center"
         android:textColor="@color/rosa"
@@ -33,8 +34,8 @@
     <EditText
         android:id="@+id/txtCorreo"
         android:layout_gravity="center"
-        android:textColor="@color/black"
-        android:hint="@string/correo"
+        android:textColor="@color/gray"
+        android:hint="Correo"
         android:inputType="textEmailAddress"
         android:layout_marginBottom="20dp"
         android:layout_marginTop="30dp"
@@ -49,7 +50,7 @@
     <EditText
         android:id="@+id/txtContrasena"
         android:layout_gravity="center"
-        android:textColor="@color/black"
+        android:textColor="@color/gray"
         android:hint="@string/contraseña"
         android:inputType="textPassword"
         android:textColorHint="@color/gray"

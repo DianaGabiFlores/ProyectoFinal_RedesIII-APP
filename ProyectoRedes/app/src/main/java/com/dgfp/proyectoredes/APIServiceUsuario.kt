@@ -5,12 +5,9 @@ import retrofit2.http.Body
 import retrofit2.http.POST
 
 interface APIServiceUsuario {
-    //@GET("usuarios")
-    //fun getPostsUsuarios(): Call<List<DCRegistrarUsuario>>
-
     @POST("login")
-    fun loginUsuario(@Body usuario: DCUsuarioLlaves): Call<DCLoginResponse>
+    fun loginUsuario(@Body usuario: DCUsuarioLlaves): Call<List<DCLoginResponse>>
 
-    @POST("registrar")
-    fun registrarUsuario(@Body usuario: DCUsuario): Call<DCUsuario>
+    @POST("usuario/nuevo")
+    fun crearUsuario(@Body usuario: DCUsuario): Call<DCUsuario>
 }

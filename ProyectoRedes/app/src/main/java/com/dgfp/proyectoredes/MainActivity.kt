@@ -66,7 +66,8 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    /*Es inseguro recibir todos los usuarios y contraseñas, es mejor enviar el usuario y contraseña
+    /*
+    //Es inseguro recibir todos los usuarios y contraseñas, es mejor enviar el usuario y contraseña
     fun login(correo: String, contrasena: String) {
         //Obtener todos los usuarios
         val retrofit = Retrofit.Builder()
@@ -125,20 +126,21 @@ class MainActivity : AppCompatActivity() {
             Contrasena = contrasena
         )
 
-        apiService.loginUsuario(objUsuario).enqueue(object : Callback<DCLoginResponse> {
-            override fun onResponse(call: Call<DCLoginResponse>, response: Response<DCLoginResponse>) {
+        apiService.loginUsuario(objUsuario).enqueue(object : Callback<List<DCLoginResponse>> {
+            override fun onResponse(call: Call<List<DCLoginResponse>>, response: Response<List<DCLoginResponse>>) {
                 if(response.isSuccessful) {
-                    val usuario = response.body()!!.usuario
+                    //val usuario = response.body()!!.usuario
 
+                    /*
                     //Guardar en la BD
                     db.insertarUsuario(usuario!!.Id_Usuario, usuario.Nombre, usuario.Primer_Apellido,
                         usuario.Segundo_Apellido, contrasena, usuario.Telefono, correo, usuario.Tipo)
                     val intent = Intent(this@MainActivity, CafeteriaActivity::class.java)
-                    startActivity(intent)
+                    startActivity(intent)*/
                 }
                 else {
                     //mostrarToast("Error: " + response.code())
-
+                    /*
                     val errorBody = response.errorBody()?.string()
                     val message =
                     if(errorBody != null) {
@@ -149,12 +151,13 @@ class MainActivity : AppCompatActivity() {
                     }
                     mostrarToast(message)
                     txtCorreo.setText("")
-                    txtContrasena.setText("")
+                    txtContrasena.setText("")*/
                 }
             }
 
-            override fun onFailure(call: Call<DCLoginResponse>, t: Throwable) {
-                mostrarToast("Error de conexión: ${t.message}")
+            override fun onFailure(call: Call<List<DCLoginResponse>>, t: Throwable) {
+                //Manejo de error
+                mostrarToast("Error de conexión: " + t.message)
             }
         })
     }
