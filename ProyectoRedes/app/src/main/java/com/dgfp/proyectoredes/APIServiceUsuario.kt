@@ -9,8 +9,7 @@ interface APIServiceUsuario {
     fun loginUsuario(@Body usuario: DCUsuarioLlaves): Call<DCLoginResponse>
 
     @POST("usuario/nuevo")
-
-    fun crearUsuario(@Body usuario: Usuario): Call<Usuario>
+    fun crearUsuario(@Body usuario: DCUsuario): Call<DCUsuario>
 
     @POST("pedidos")
     fun getPedidos(@Body user: DCUser): Call<List<PedidosInfo>>
