@@ -1,5 +1,6 @@
 package com.dgfp.proyectoredes
 
+import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -7,44 +8,63 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 
-class PedidosCAdapter (private val pedidos: List<PedidosInfo> ):
-    RecyclerView.Adapter<PedidosCAdapter.PedidosViewHolder>() {
+class PedidosCAdapter : RecyclerView.Adapter<PedidosCAdapter.PedidosViewHolder> {
+    var datos: ArrayList<Pedidos>
 
     var listener: OnItemClickListener? = null
-
     interface OnItemClickListener {
-        fun onItemClick(item: PedidosInfo)
+        fun onItemClick(item: Pedidos)
     }
 
-    class PedidosViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+    constructor(datos: ArrayList<Pedidos>, listener: OnItemClickListener?) : super() {
+        this.datos = datos
+        this.listener = listener
+    }
 
-        fun bindPedidos(pedido: PedidosInfo, listener: OnItemClickListener?) {
-            val imgqr: ImageView = itemView.findViewById(R.id.QR)
-            val txtComida : TextView = itemView.findViewById(R.id.Comida)
-            val txtCafeteria : TextView = itemView.findViewById(R.id.Cafeteria)
-            val txtSucursal : TextView = itemView.findViewById(R.id.Edificio)
-            val txtTipoP : TextView = itemView.findViewById(R.id.TipoP)
-            val txtTiempo : TextView = itemView.findViewById(R.id.Tiempo)
-            val txtFecha : TextView = itemView.findViewById(R.id.FechaP)
-            val txtPrecio : TextView = itemView.findViewById(R.id.PrecioP)
+    class PedidosViewHolder : RecyclerView.ViewHolder {
 
+        var imgqr: ImageView
+        var txtComida : TextView
+        var txtCafeteria : TextView
+        var txtSucursal : TextView
+        var txtTipoP : TextView
+        var txtTiempo : TextView
+        var txtFecha : TextView
+        var txtPrecio : TextView
+
+        constructor(itemView: View) : super(itemView) {
+            imgqr = itemView.findViewById(R.id.QR)
+            txtComida = itemView.findViewById(R.id.Comida)
+            txtCafeteria = itemView.findViewById(R.id.Cafeteria)
+            txtSucursal = itemView.findViewById(R.id.Edificio)
+            txtTipoP = itemView.findViewById(R.id.TipoP)
+            txtTiempo = itemView.findViewById(R.id.Tiempo)
+            txtFecha = itemView.findViewById(R.id.FechaP)
+            txtPrecio = itemView.findViewById(R.id.PrecioP)
+        }
+
+        fun bindPedidos(pedido: Pedidos, listener: OnItemClickListener?) {
             imgqr.setImageResource( R.drawable.ic_launcher_background)
-            txtComida.setText(pedido.Comida)
-            txtSucursal.append(pedido.Sucursal)
-            txtCafeteria.append(pedido.Cafeteria)
-            if(pedido.Tipo_pago == 'T'){
+            txtComida.setText(pedido.getNombreComida())
+            txtSucursal.append(pedido.getNombreSucursal())
+            txtCafeteria.append(pedido.getNombreCaferia())
+            if(pedido.getTipoP().equals('T')){
                 txtTipoP.append("Tarjeta")
             }else{
                 txtTipoP.append("Efectivo")
             }
-            txtTiempo.setText(pedido.Tiempo)
-            txtFecha.setText(pedido.Fecha.toString())
-            txtPrecio.setText(pedido.Precio.toString())
+            txtTiempo.setText(pedido.getTiempo())
+            txtFecha.setText(pedido.getfechaP())
+            txtPrecio.setText(pedido.getPrecio())
 
             itemView.setOnClickListener {
                 listener!!.onItemClick(pedido)
             }
         }
+    }
+
+    constructor(datos: ArrayList<Pedidos>) : super() {
+        this.datos = datos
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PedidosViewHolder {
@@ -53,11 +73,11 @@ class PedidosCAdapter (private val pedidos: List<PedidosInfo> ):
     }
 
     override fun onBindViewHolder(holder: PedidosViewHolder, position: Int) {
-        val contacto: PedidosInfo = pedidos[position]
+        val contacto: Pedidos = datos[position]
         holder.bindPedidos(contacto, listener)
     }
 
     override fun getItemCount(): Int {
-        return pedidos.size
+        return datos.size
     }
 }
