@@ -8,9 +8,9 @@ import android.widget.ImageView
 import android.widget.TextView
 
 
-class ComidaAdapter internal constructor(var context: Activity, datos: Array<Comida>) :
-    ArrayAdapter<Any?>(context, R.layout.comida_layout, datos) {
-    var datos: Array<Comida> = datos
+class ComidaAdapter internal constructor(var context: Activity, datos: ArrayList<Comida>) :
+    ArrayAdapter<Any?>(context, R.layout.comida_layout, datos as List<Any?>) {
+    var datos: ArrayList<Comida> = datos
 
     override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
         var item = convertView

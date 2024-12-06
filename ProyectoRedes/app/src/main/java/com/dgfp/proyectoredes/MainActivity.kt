@@ -10,7 +10,6 @@ import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
-import org.json.JSONObject
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -24,7 +23,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var txtCorreo: EditText
     private lateinit var txtContrasena: EditText
     var db: DBSQLite = DBSQLite(this) //Base de Datos
-    private var baseURL = "http://192.168.100.53:3000/"
+    private var baseURL = "http://192.168.1.163:3000/"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -119,7 +118,7 @@ class MainActivity : AppCompatActivity() {
             .baseUrl(baseURL)
             .addConverterFactory(GsonConverterFactory.create())
             .build()
-        val apiService = retrofit.create(APIServiceUsuario::class.java)
+        val apiService = retrofit.create(APIService::class.java)
 
         val objUsuario = DCUsuarioLlaves(
             Correo = correo,

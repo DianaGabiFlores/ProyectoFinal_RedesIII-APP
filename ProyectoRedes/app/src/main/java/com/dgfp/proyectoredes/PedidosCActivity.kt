@@ -3,7 +3,6 @@ package com.dgfp.proyectoredes
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
@@ -79,7 +78,7 @@ class PedidosCActivity : AppCompatActivity() {
             .baseUrl(baseURL)
             .addConverterFactory(GsonConverterFactory.create())
             .build()
-        val apiService = retrofit.create(APIServiceUsuario::class.java)
+        val apiService = retrofit.create(APIService::class.java)
         val id_usuario = DCUser(5)
         apiService.getPedidos(id_usuario).enqueue(object : Callback<List<PedidosInfo>> {
             override fun onResponse(call: Call<List<PedidosInfo>>, response: Response<List<PedidosInfo>>) {

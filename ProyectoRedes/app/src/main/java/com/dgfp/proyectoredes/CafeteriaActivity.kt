@@ -54,8 +54,13 @@ class CafeteriaActivity : AppCompatActivity() {
         //Listener
         adaptador = CafeteriaAdapter(datos, object : CafeteriaAdapter.OnItemClickListener {
             override fun onItemClick(item: Cafeteria) {
-                Toast.makeText(applicationContext, "Cafetería: " + item.getNombreCaferia(), Toast.LENGTH_SHORT).show()
-                val intent = Intent(baseContext, ComidaActivity::class.java)
+                if(item.getNombreSucursal() != null) {
+                    mostrarToast(item.getNombreCaferia() + " (" + item.getNombreSucursal() + ")")
+                }
+                else mostrarToast(item.getNombreCaferia())
+
+                val intent = Intent(this@CafeteriaActivity, ComidaActivity::class.java)
+                intent.putExtra("id", ""+item.getIDCafeteria())
                 intent.putExtra("cafeteria", ""+item.getNombreCaferia())
                 startActivity(intent)
             }
@@ -77,7 +82,7 @@ class CafeteriaActivity : AppCompatActivity() {
             .baseUrl(baseURL)
             .addConverterFactory(GsonConverterFactory.create())
             .build()
-        val apiService = retrofit.create(APIServiceCafeteria::class.java)
+        val apiService = retrofit.create(APIService::class.java)
 
         apiService.getCafeterias().enqueue(object : Callback<List<DCCafeteria>> {
             override fun onResponse(call: Call<List<DCCafeteria>>, response: Response<List<DCCafeteria>>) {
@@ -91,6 +96,7 @@ class CafeteriaActivity : AppCompatActivity() {
                                 datos.add(
                                     Cafeteria(
                                         R.drawable.ic_launcher_background,
+                                        cafeteria.Id_Cafeteria,
                                         cafeteria.Nombre,
                                         sucursal.Nombre,
                                         sucursal.Edificio,
