@@ -18,6 +18,6 @@ interface APIService {
     @GET("cafeterias")
     fun getCafeterias(): Call<List<DCCafeteria>>
 
-    @GET("menus")
+    @GET("comidasxingredientes")
     fun getMenus(): Call<List<DCMenu>>
 }

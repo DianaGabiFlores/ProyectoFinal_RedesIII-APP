@@ -10,33 +10,53 @@
     tools:context=".OrdenarActivity">
 
     <ImageView
-        android:id="@+id/imagen_producto"
+        android:id="@+id/imgComida"
         android:layout_width="128dp"
         android:layout_height="128dp"
         android:layout_gravity="center"
         android:src="@drawable/ic_launcher_background"/>
 
     <TextView
-        android:id="@+id/nombre_producto"
+        android:id="@+id/txtNombre"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:text="TextView"
+        android:text="Nombre de la Comida"
+        android:textSize="18sp"
         android:textStyle="bold"/>
 
     <TextView
-        android:id="@+id/precio_producto"
+        android:id="@+id/txtPrecio"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:text="$0.00"/>
+        android:text="$0.00"
+        android:textSize="18sp"/>
 
     <TextView
-        android:id="@+id/detalles_producto"
+        android:id="@+id/txtTiempoPreparacion"
         android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:gravity="center"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="50dp"
         android:layout_gravity="center"
-        android:text="Detalles"/>
+        android:text="Tiempo de Preparación"
+        android:textSize="18sp"/>
+
+    <TextView
+        android:id="@+id/txtIngredientes"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="50dp"
+        android:layout_gravity="center"
+        android:text="Ingredientes"
+        android:textSize="18sp"/>
+
+    <TextView
+        android:id="@+id/txtListaIngredientes"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:text="Lista de Ingredientes"
+        android:textSize="18sp"/>
 
 </LinearLayout>

@@ -74,12 +74,13 @@ class ComidaActivity : AppCompatActivity() {
                         datos.clear()
 
                         for(menu in menus) {
-                            if(menu.Cafeteria_Sucursal == idCafeteria) {
+                            if(menu.Id_Cafeteria == idCafeteria) {
                                 datos.add(
                                     Comida(
                                         menu.Nombre,
                                         menu.Precio.toFloat(),
                                         menu.TiempoPrepa,
+                                        menu.Ingredientes,
                                         R.drawable.ic_launcher_background
                                     )
                                 )
