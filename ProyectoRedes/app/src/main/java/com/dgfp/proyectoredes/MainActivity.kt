@@ -23,7 +23,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var txtCorreo: EditText
     private lateinit var txtContrasena: EditText
     var db: DBSQLite = DBSQLite(this) //Base de Datos
-    private var baseURL = "http://192.168.1.163:3000/"
+    private var baseURL = "http://192.168.100.53:3000/"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -60,7 +60,7 @@ class MainActivity : AppCompatActivity() {
             }
         }
         else if(v == btnCrearCuenta) {
-            val intent = Intent(this@MainActivity, PedidosCActivity::class.java)
+            val intent = Intent(this@MainActivity, RegistrarActivity::class.java)
             startActivity(intent)
         }
     }

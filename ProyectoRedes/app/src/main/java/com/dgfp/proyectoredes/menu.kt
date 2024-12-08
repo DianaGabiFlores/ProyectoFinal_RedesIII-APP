@@ -19,10 +19,10 @@ class menu: View {
     private var home: Drawable? = null
     private var pedidos: Drawable? = null
     private var user: Drawable? = null
+    private var mapa: Drawable? = null
 
-    private var pausar: Drawable? = null
-    private var play: Drawable? = null
-
+    //App
+    private var menuTipo: Int = 0
 
     //Rectangulos
     private val cuadrado = Paint()
@@ -36,13 +36,8 @@ class menu: View {
     }
     constructor(context: Context?, attrs: AttributeSet?): super(context, attrs){
         inicializa()
-//        val a = getContext().obtainStyledAttributes(attrs, R.styleable.Configuracion)
-//        casaBol = a.getString(R.styleable.Configuracion_casa).toBoolean()
-//        pausarBol = a.getString(R.styleable.Configuracion_pausar).toBoolean()
-//        musicString = a.getString(R.styleable.Configuracion_musica).toString()
-//        music = MediaPlayer.create(context, resources.getIdentifier(musicString, "raw", context?.getPackageName()))
-////        music = MediaPlayer.create(context, R.raw.jojisantuary)
-//        music?.start()
+        val a = getContext().obtainStyledAttributes(attrs, R.styleable.menu)
+        menuTipo = a.getString(R.styleable.menu_tipo)!!.toInt()
     }
 
     private fun inicializa() {
@@ -62,6 +57,7 @@ class menu: View {
         home!!.draw(canvas)
         user!!.draw(canvas)
         pedidos!!.draw(canvas)
+        mapa!!.draw(canvas)
 
         invalidate()
     }
@@ -71,24 +67,20 @@ class menu: View {
         val ancho = measuredWidth.toFloat()
 
         if(event.y >= 25 && event.y <= 175){
-            if(event.x >= (ancho/4-75) && event.x <= (ancho/4+75) ){
-//                val intent = Intent(context, CrearCuenta_Inter::class.java)
-//                context.startActivity(intent)
-            }else if(event.x >=(ancho/2-75) && event.x <=  (ancho/2+75) ){
-//                val intent = Intent(context, CrearCuenta_Inter::class.java)
-//                context.startActivity(intent)
-            }else if(event.x >= (ancho/4*3-75) && event.x <= (ancho/4*3+75)){
-//                val intent = Intent(context, CrearCuenta_Inter::class.java)
-//                context.startActivity(intent)
+            if(event.x >= (ancho/8-75) && event.x <= (ancho/8+75) && menuTipo != 1){
+                val intent = Intent(context, CafeteriaActivity::class.java)
+                context.startActivity(intent)
+            }else if(event.x >= (ancho/8*3-75) && event.x <=  (ancho/8*3+75) && menuTipo != 2){
+                val intent = Intent(context, PedidosCActivity::class.java)
+                context.startActivity(intent)
+            }else if(event.x >= (ancho/8*5-75) && event.x <= (ancho/8*5+75) && menuTipo != 3){
+                val intent = Intent(context, PruebaMapa::class.java)
+                context.startActivity(intent)
+            }else if(event.x >= (ancho/8*7-75) && event.x <= (ancho/8*7+75) && menuTipo != 4){
+                val intent = Intent(context, UsuarioActivity::class.java)
+                context.startActivity(intent)
             }
         }
-        home!!.setBounds((ancho/4-75).toInt(), 25, (ancho/4+75).toInt(), 175)
-
-        pedidos = AppCompatResources.getDrawable(getContext(), R.drawable.baseline_fastfood_24)
-        pedidos!!.setBounds((ancho/2-75).toInt(), 25, (ancho/2+75).toInt(), 175)
-
-        user = AppCompatResources.getDrawable(getContext(), R.drawable.baseline_person_pin_24)
-        user!!.setBounds((ancho/4*3-75).toInt(), 25, (ancho/4*3+75).toInt(), 175)
 
         return true
     }
@@ -99,13 +91,17 @@ class menu: View {
         val ancho = measuredWidth.toFloat()
 
         home = AppCompatResources.getDrawable(getContext(), R.drawable.baseline_home_24)
-        home!!.setBounds((ancho/4-75).toInt(), 25, (ancho/4+75).toInt(), 175)
+        home!!.setBounds((ancho/8-75).toInt(), 25, (ancho/8+75).toInt(), 175)
 
         pedidos = AppCompatResources.getDrawable(getContext(), R.drawable.baseline_fastfood_24)
-        pedidos!!.setBounds((ancho/2-75).toInt(), 25, (ancho/2+75).toInt(), 175)
+        pedidos!!.setBounds((ancho/8*3-75).toInt(), 25, (ancho/8*3+75).toInt(), 175)
 
-        user = AppCompatResources.getDrawable(getContext(), R.drawable.baseline_person_pin_24)
-        user!!.setBounds((ancho/4*3-75).toInt(), 25, (ancho/4*3+75).toInt(), 175)
+        user = AppCompatResources.getDrawable(getContext(), R.drawable.baseline_map_24)
+        user!!.setBounds((ancho/8*5-75).toInt(), 25, (ancho/8*5+75).toInt(), 175)
+
+        mapa = AppCompatResources.getDrawable(getContext(), R.drawable.baseline_person_pin_24)
+        mapa!!.setBounds((ancho/8*7-75).toInt(), 25, (ancho/8*7+75).toInt(), 175)
+
 
     }
 

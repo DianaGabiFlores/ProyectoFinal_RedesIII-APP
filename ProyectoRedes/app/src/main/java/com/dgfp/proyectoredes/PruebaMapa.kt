@@ -17,10 +17,14 @@ import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
+import com.google.android.gms.maps.UiSettings
+import com.google.android.gms.maps.model.BitmapDescriptorFactory
 import com.google.android.gms.maps.model.LatLng
+import com.google.android.gms.maps.model.Marker
 import com.google.android.gms.maps.model.MarkerOptions
 
-class PruebaMapa : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMyLocationButtonClickListener {
+class PruebaMapa : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMyLocationButtonClickListener,
+    GoogleMap.OnMarkerClickListener, GoogleMap.OnInfoWindowClickListener {
 
     private lateinit var map: GoogleMap
 
@@ -36,38 +40,66 @@ class PruebaMapa : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMyLocati
     }
     override fun onMapReady(googleMap: GoogleMap) {
         map = googleMap
+        map.setMinZoomPreference(6.0f)
+        map.setMaxZoomPreference(25.0f)
         createMarker()
         enableMyLocation()
+
     }
 
     private fun createMarker(){
-//        val coordinates = LatLng(21.91391109333604, -102.31010644930754)
-//        val marker: MarkerOptions = MarkerOptions().position(coordinates).title("Casa")
-
-        val cafeteria1 = LatLng(21.909982836966822, -102.31501933620224)
-        val marker1: MarkerOptions = MarkerOptions().position(cafeteria1).title("Cafetería Central")
-
-        val cafeteria2 = LatLng(21.91334784841098, -102.31774259167877)
-        val marker2: MarkerOptions = MarkerOptions().position(cafeteria2).title("Cafetería Sur")
-
-        val cafeteria3 = LatLng(21.917176584552784, -102.31929890583075)
-        val marker3: MarkerOptions = MarkerOptions().position(cafeteria3).title("Cafetería Norte")
-
-        val cafeteria4 = LatLng(21.91415108886858, -102.31462663087439)
-        val marker4: MarkerOptions = MarkerOptions().position(cafeteria4).title("Comedor Universitario")
-
-//        map.addMarker(marker)
-        map.addMarker(marker1)
-        map.addMarker(marker2)
-        map.addMarker(marker3)
-        map.addMarker(marker4)
+        val cafeteriaSurLL = LatLng(21.91000751748219, -102.31502264641846)
+        val cafeteriaSur = map.addMarker(
+            MarkerOptions()
+                .position(cafeteriaSurLL)
+                .title("Cafetería Sur")
+                .snippet("Lista de cafeterias \n Hola \n asdfsa \n asdfsfd")
+//                .icon(BitmapDescriptorFactory.fromResource(R.drawable.iconcafe))
+        )
+        cafeteriaSur?.showInfoWindow()
 
 
-//        map.animateCamera(
-//            CameraUpdateFactory.newLatLngZoom(coordinates, 18f),
-//            4000,
-//            null
-//        )
+        val cafeteriaOrienteLL = LatLng(21.913336757793253, -102.31773449396881)
+        val cafeteriaOriente = map.addMarker(
+            MarkerOptions()
+                .position(cafeteriaOrienteLL)
+                .title("Cafetería Oriente")
+                .snippet("Lista de cafeterias \n Hola \n asdfsa \n asdfsfd")
+//                .icon(BitmapDescriptorFactory.fromResource(R.drawable.iconcafe))
+        )
+
+        val comedorUniLL = LatLng(21.914137570362808, -102.31462639530848)
+        val comedorUni = map.addMarker(
+            MarkerOptions()
+                .position(comedorUniLL)
+                .title("Comedor Universitario")
+                .snippet("Lista de cafeterias \n Hola \n asdfsa \n asdfsfd")
+//                .icon(BitmapDescriptorFactory.fromResource(R.drawable.iconcafe))
+        )
+
+        val cafeteriaCSLL = LatLng(21.91710769143836, -102.31514356066208)
+        val cafeteriaCS = map.addMarker(
+            MarkerOptions()
+                .position(cafeteriaCSLL)
+                .title("Cafetería Área Médica")
+                .snippet("Lista de cafeterias \n Hola \n asdfsa \n asdfsfd")
+//                .icon(BitmapDescriptorFactory.fromResource(R.drawable.iconcafe))
+        )
+        val cafeteriaNorteLL = LatLng(21.917169969739, -102.319348465737)
+        val cafeteriaNorte = map.addMarker(
+            MarkerOptions()
+                .position(cafeteriaNorteLL)
+                .title("Cafetería Norte")
+                .snippet("Lista de cafeterias \n Hola \n asdfsa \n asdfsfd")
+//                .icon(BitmapDescriptorFactory.fromResource(R.drawable.iconcafe))
+        )
+
+
+        map.animateCamera(
+            CameraUpdateFactory.newLatLngZoom(cafeteriaSurLL, 18f),
+            4000,
+            null
+        )
     }
 
     private fun isPermissionsGranted() = ContextCompat.checkSelfPermission(
@@ -183,6 +215,48 @@ class PruebaMapa : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMyLocati
        return false
     }
 
+    /** Called when the user clicks a marker.  */
+    override fun onMarkerClick(marker: Marker): Boolean {
+        // Retrieve the data from the marker.
+        val clickCount = marker.tag as? Int
 
+        // Check if a click count was set, then display the click count.
+        clickCount?.let {
+            val newClickCount = it + 1
+            marker.tag = newClickCount
+            Toast.makeText(
+                this,
+                "${marker.title} has been clicked $newClickCount times.",
+                Toast.LENGTH_SHORT
+            ).show()
+        }
+
+        // Return false to indicate that we have not consumed the event and that we wish
+        // for the default behavior to occur (which is for the camera to move such that the
+        // marker is centered and for the marker's info window to open, if it has one).
+        return false
+    }
+
+    override fun onInfoWindowClick(marker: Marker) {
+        Toast.makeText(
+            this, "Info window clicked",
+            Toast.LENGTH_SHORT
+        ).show()
+    }
+
+//    fun calcRoute() {
+//        var start = " "
+//        var end = " "
+//        var request = {
+//                origin: start,
+//                destination: end,
+//                travelMode: 'DRIVING'
+//        };
+//        directionsService.route(request, function(result, status) {
+//            if (status == 'OK') {
+//                directionsRenderer.setDirections(result);
+//            }
+//        });
+//    }
 
 }
