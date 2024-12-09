@@ -9,7 +9,7 @@
 
     <ListView
         android:id="@+id/lvComidas"
-        android:layout_width="409dp"
-        android:layout_height="424dp"/>
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
 
 </LinearLayout>

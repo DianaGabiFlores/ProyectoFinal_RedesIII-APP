@@ -38,35 +38,35 @@
 
             <TextView
                 android:id="@+id/Comida"
-                android:text="Comida"
+                android:text="Comida: "
                 android:textSize="18dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"/>
 
             <TextView
                 android:id="@+id/Cafeteria"
-                android:text="Cafeteria"
+                android:text="Cafetería: "
                 android:textSize="18dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"/>
 
             <TextView
                 android:id="@+id/Edificio"
-                android:text="Edificio"
+                android:text="Edificio: "
                 android:textSize="18dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"/>
 
             <TextView
                 android:id="@+id/TipoP"
-                android:text="Tipo de pago"
+                android:text="Tipo de pago: "
                 android:textSize="18dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"/>
 
             <TextView
                 android:id="@+id/PrecioP"
-                android:text="Precio"
+                android:text="Precio: "
                 android:textSize="18dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"/>
@@ -74,14 +74,14 @@
 
             <TextView
                 android:id="@+id/Tiempo"
-                android:text="Tiempo"
+                android:text="Tiempo: "
                 android:textSize="18dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"/>
 
             <TextView
                 android:id="@+id/FechaP"
-                android:text="Fecha de pedido"
+                android:text="Fecha de pedido: "
                 android:textSize="18dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"/>

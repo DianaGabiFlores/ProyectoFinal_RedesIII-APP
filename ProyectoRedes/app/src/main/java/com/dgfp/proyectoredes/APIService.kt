@@ -20,4 +20,7 @@ interface APIService {
 
     @GET("comidasxingredientes")
     fun getMenus(): Call<List<DCMenu>>
+
+    @POST("usuario/getsuyca")
+    fun getSucursalEnc(@Body email: DCEmail): Call<DCEncargadoSucursal>
 }

@@ -24,7 +24,7 @@ class PedidosCActivity : AppCompatActivity() {
     var adaptador: PedidosCAdapter? = null
     var datos: ArrayList<Pedidos> = ArrayList()
     var db: DBSQLite = DBSQLite(this) //Base de Datos
-    private var baseURL = "http://172.16.66.85:3000/"
+    private var baseURL = "http://192.168.100.53:3000/"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -56,9 +56,6 @@ class PedidosCActivity : AppCompatActivity() {
         adaptador = PedidosCAdapter(datos, object : PedidosCAdapter.OnItemClickListener {
             override fun onItemClick(item: Pedidos) {
                 Toast.makeText(applicationContext, "Cafetería: " + item.getNombreCaferia(), Toast.LENGTH_SHORT).show()
-                val intent = Intent(baseContext, ComidaActivity::class.java)
-                intent.putExtra("cafeteria", ""+item.getNombreCaferia())
-                startActivity(intent)
             }
         })
 
@@ -79,7 +76,7 @@ class PedidosCActivity : AppCompatActivity() {
             .addConverterFactory(GsonConverterFactory.create())
             .build()
         val apiService = retrofit.create(APIService::class.java)
-        val id_usuario = DCUser(5)
+        val id_usuario = DCUser(user.toInt())
         apiService.getPedidos(id_usuario).enqueue(object : Callback<List<PedidosInfo>> {
             override fun onResponse(call: Call<List<PedidosInfo>>, response: Response<List<PedidosInfo>>) {
                 if (response.isSuccessful) {
@@ -96,6 +93,7 @@ class PedidosCActivity : AppCompatActivity() {
                                 pedido.Tipo_pago,
                                 pedido.Precio.toString(),
                                 pedido.Tiempo.toString(),
+                                pedido.Pagado,
                                 pedido.Fecha
                             )
                             datos.add(objPedido)

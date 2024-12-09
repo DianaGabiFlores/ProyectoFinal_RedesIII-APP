@@ -1,5 +1,6 @@
 package com.dgfp.proyectoredes
 
+import android.annotation.SuppressLint
 import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.View
@@ -53,9 +54,9 @@ class PedidosCAdapter : RecyclerView.Adapter<PedidosCAdapter.PedidosViewHolder> 
             }else{
                 txtTipoP.append("Efectivo")
             }
-            txtTiempo.setText(pedido.getTiempo())
+            txtTiempo.setText(pedido.getTiempo()+" min")
             txtFecha.setText(pedido.getfechaP())
-            txtPrecio.setText(pedido.getPrecio())
+            txtPrecio.setText("$"+pedido.getPrecio())
 
             itemView.setOnClickListener {
                 listener!!.onItemClick(pedido)
@@ -72,9 +73,25 @@ class PedidosCAdapter : RecyclerView.Adapter<PedidosCAdapter.PedidosViewHolder> 
         return PedidosViewHolder(item)
     }
 
+    @SuppressLint("ResourceAsColor")
     override fun onBindViewHolder(holder: PedidosViewHolder, position: Int) {
-        val contacto: Pedidos = datos[position]
-        holder.bindPedidos(contacto, listener)
+        val pedidoI: Pedidos = datos[position]
+        holder.bindPedidos(pedidoI, listener)
+
+        if(pedidoI.getPagado().equals('N')){
+            holder.itemView.setBackgroundColor(Color.parseColor("#FF4362")) //Fondo Rosa
+        }else{
+            holder.itemView.setBackgroundColor(Color.parseColor("#5F5F5F")) //Fondo Gris
+            holder.txtComida.setTextColor(Color.WHITE)
+            holder.txtComida.setTextColor(Color.WHITE)
+            holder.txtCafeteria.setTextColor(Color.WHITE)
+            holder.txtSucursal.setTextColor(Color.WHITE)
+            holder.txtTipoP.setTextColor(Color.WHITE)
+            holder.txtTiempo.setTextColor(Color.WHITE)
+            holder.txtFecha.setTextColor(Color.WHITE)
+            holder.txtPrecio.setTextColor(Color.WHITE)
+
+        }
     }
 
     override fun getItemCount(): Int {

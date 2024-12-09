@@ -23,7 +23,7 @@ class CafeteriaActivity : AppCompatActivity() {
     var adaptador: CafeteriaAdapter? = null
     var datos: ArrayList<Cafeteria> = ArrayList()
     var db: DBSQLite = DBSQLite(this) //Base de Datos
-    private var baseURL = "http://192.168.1.163:3000/"
+    private var baseURL = "http://192.168.100.53:3000/"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -95,7 +95,8 @@ class CafeteriaActivity : AppCompatActivity() {
                             for(sucursal in cafeteria.Sucursales) {
                                 datos.add(
                                     Cafeteria(
-                                        R.drawable.ic_launcher_background,
+//                                        R.drawable.ic_launcher_background,
+                                        R.drawable.casa,
                                         cafeteria.Id_Cafeteria,
                                         cafeteria.Nombre,
                                         sucursal.Nombre,

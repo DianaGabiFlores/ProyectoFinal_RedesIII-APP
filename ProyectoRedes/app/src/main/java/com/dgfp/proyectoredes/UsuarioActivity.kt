@@ -5,7 +5,9 @@ import android.content.Intent
 import android.os.Bundle
 import android.util.AttributeSet
 import android.view.LayoutInflater
+import android.view.View
 import android.widget.ImageButton
+import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
 import android.widget.Toast
@@ -16,6 +18,11 @@ import androidx.core.view.WindowInsetsCompat
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
+import retrofit2.Retrofit
+import retrofit2.converter.gson.GsonConverterFactory
 import java.util.Vector
 
 class UsuarioActivity: AppCompatActivity() {
@@ -25,6 +32,11 @@ class UsuarioActivity: AppCompatActivity() {
     var Email: TextView? = null
     var Telefono: TextView? = null
     var Tipo: TextView? = null
+    var Cafeteria: TextView? = null
+    var Sucursal: TextView? = null
+    var imagenC: ImageView? = null
+    private var toast: Toast? = null
+    private var baseURL = "http://192.168.100.53:3000/"
 
     var db: DBSQLite = DBSQLite(this) //Base de Datos
 
@@ -42,8 +54,11 @@ class UsuarioActivity: AppCompatActivity() {
         Telefono = findViewById(R.id.telefono)
         Tipo = findViewById(R.id.tipoUser)
         Apellidos = findViewById(R.id.apellidos)
-//        ApellidoM = findViewById(R.id.btnLogin)
-//
+        Cafeteria = findViewById(R.id.cafeteria)
+        Sucursal = findViewById(R.id.sucursal)
+        imagenC = findViewById(R.id.imagenC)
+
+
         var datosUsuario: Vector<String> = db.obtenerUsuario()
         if(datosUsuario != null) {
             Toast.makeText(this, "Bienvenido "+datosUsuario[1], Toast.LENGTH_LONG).show()
@@ -52,12 +67,49 @@ class UsuarioActivity: AppCompatActivity() {
             Email?.setText(datosUsuario[6])
             Telefono?.setText(datosUsuario[5])
             Tipo?.append(datosUsuario[7])
+        }
 
-
+        if(datosUsuario[7] == "Encargado"){
+            obtenerInfo(datosUsuario[6])
         }
 
 
     }
+
+    //Obtener todas las cafeterías
+    fun obtenerInfo(email: String) {
+        val retrofit = Retrofit.Builder()
+            .baseUrl(baseURL)
+            .addConverterFactory(GsonConverterFactory.create())
+            .build()
+        val apiService = retrofit.create(APIService::class.java)
+        val emailInfo = DCEmail(email)
+        apiService.getSucursalEnc(emailInfo).enqueue(object : Callback<DCEncargadoSucursal> {
+            override fun onResponse(call: Call<DCEncargadoSucursal>, response: Response<DCEncargadoSucursal>) {
+                if (response.isSuccessful) {
+                    val info = response.body()
+                    if (info != null) {
+                        Cafeteria?.visibility = View.VISIBLE
+                        Sucursal?.visibility = View.VISIBLE
+                        imagenC?.visibility = View.VISIBLE
+                        Cafeteria?.setText(info.NombreCafe)
+                        Sucursal?.setText(info.NombreSucu)
+                    }
+                }
+            }
+
+            override fun onFailure(call: Call<DCEncargadoSucursal>, t: Throwable) {
+                mostrarToast("Error de conexión: " + t.message)
+            }
+        })
+    }
+
+    fun mostrarToast(mensaje: String) {
+        if(toast != null) toast!!.cancel()
+        toast = Toast.makeText(this@UsuarioActivity, mensaje, Toast.LENGTH_LONG)
+        toast!!.show()
+    }
+
 
 }
 
