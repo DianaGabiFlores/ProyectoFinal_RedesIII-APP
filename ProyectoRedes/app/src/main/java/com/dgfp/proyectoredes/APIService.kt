@@ -15,6 +15,9 @@ interface APIService {
     @POST("pedidos")
     fun getPedidos(@Body user: DCUser): Call<List<PedidosInfo>>
 
+    @POST("pedidos/getEnc")
+    fun getPedidosEnc(@Body user: DCUser): Call<List<DCPedidosEnc>>
+
     @GET("cafeterias")
     fun getCafeterias(): Call<List<DCCafeteria>>
 
@@ -23,4 +26,8 @@ interface APIService {
 
     @POST("usuario/getsuyca")
     fun getSucursalEnc(@Body email: DCEmail): Call<DCEncargadoSucursal>
+
+    @POST("pedido/entregado")
+    fun pedidoEntregado(@Body orden: DCOrden): Call<Boolean>
+
 }

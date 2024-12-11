@@ -20,7 +20,7 @@ class ComidaActivity : AppCompatActivity() {
     private var toast: Toast? = null
     var adaptadorDatos: ComidaAdapter? = null
     var datos: ArrayList<Comida> = ArrayList()
-    private var baseURL = "http://192.168.1.163:3000/"
+    private var baseURL = "http://192.168.100.53:3000/"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -81,7 +81,8 @@ class ComidaActivity : AppCompatActivity() {
                                         menu.Precio.toFloat(),
                                         menu.TiempoPrepa,
                                         menu.Ingredientes,
-                                        R.drawable.ic_launcher_background
+//                                        R.drawable.ic_launcher_background
+                                        R.drawable.plato
                                     )
                                 )
                             }

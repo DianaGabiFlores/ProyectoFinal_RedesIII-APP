@@ -12,6 +12,19 @@
             android:orientation="vertical"
             android:layout_weight="3" >
 
+                <TextView
+                    android:id="@+id/NoH"
+                    android:visibility="gone"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="No se encontraron pedidos"
+                    android:textAlignment="center"
+                    android:textSize="25dp"
+                    android:textColor="@color/white"
+                    android:padding="40dp"
+                    android:layout_margin="20dp"
+                    android:background="@drawable/rounded_corners_testview"/>
+
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/recyclerView"
                     android:layout_width="match_parent"
