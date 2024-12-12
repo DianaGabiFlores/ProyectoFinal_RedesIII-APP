@@ -8,7 +8,9 @@
     <string name="email">Email</string>
     <string name="login">Login</string>
     <string name="crearCuenta">Regístrate</string>
-    <string name="mensajeCrearC">Aún no cuentas con una cuenta?</string>
+    <string name="mensajeCrearC">¿Aún no cuentas con una cuenta?</string>
+    <string name="ordenar">Ordenar</string>
+    <string name="baseURL">http://192.168.1.163:3000/</string>
 
     <string-array name="tipoCliente">
         <item>Cliente</item>

@@ -23,14 +23,14 @@ class RegistrarActivity : AppCompatActivity() {
     private lateinit var txtCorreo: EditText
     private lateinit var txtContrasena: EditText
     private lateinit var btnCrearCuenta: Button
-
     var db: DBSQLite = DBSQLite(this) //Base de Datos
-    private var baseURL = "http://172.16.156.146:3000/"
+    private lateinit var baseURL: String
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.crear_cuenta)
 
+        baseURL = baseContext.getString(R.string.baseURL)
         txtNombre = findViewById(R.id.txtNombre)
         txtApellidoP = findViewById(R.id.txtApellidoP)
         txtApellidoM = findViewById(R.id.txtApellidoM)

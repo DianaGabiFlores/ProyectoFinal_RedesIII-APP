@@ -28,7 +28,7 @@ class PedidosCActivity : AppCompatActivity() {
     var datos: ArrayList<Pedidos> = ArrayList()
     var datos1: ArrayList<PedidosEnc> = ArrayList()
     var db: DBSQLite = DBSQLite(this) //Base de Datos
-    private var baseURL = "http://172.16.127.17:3000/"
+    private lateinit var baseURL: String
 
     private var TxtN: TextView? = null
 
@@ -41,6 +41,8 @@ class PedidosCActivity : AppCompatActivity() {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
+
+        baseURL = baseContext.getString(R.string.baseURL)
 
         //Verificar que se obtuviron los datos del usuario
         var datosUsuario: Vector<String> = db.obtenerUsuario()

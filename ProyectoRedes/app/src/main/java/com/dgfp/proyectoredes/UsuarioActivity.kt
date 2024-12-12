@@ -36,7 +36,7 @@ class UsuarioActivity: AppCompatActivity() {
     var Sucursal: TextView? = null
     var imagenC: ImageView? = null
     private var toast: Toast? = null
-    private var baseURL = "http://192.168.100.53:3000/"
+    private lateinit var baseURL: String
 
     var db: DBSQLite = DBSQLite(this) //Base de Datos
 
@@ -49,6 +49,7 @@ class UsuarioActivity: AppCompatActivity() {
 //            insets
 //        }
 
+        baseURL = baseContext.getString(R.string.baseURL)
         Nombre = findViewById(R.id.name)
         Email = findViewById(R.id.email)
         Telefono = findViewById(R.id.telefono)

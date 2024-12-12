@@ -20,7 +20,7 @@ class ComidaActivity : AppCompatActivity() {
     private var toast: Toast? = null
     var adaptadorDatos: ComidaAdapter? = null
     var datos: ArrayList<Comida> = ArrayList()
-    private var baseURL = "http://192.168.100.53:3000/"
+    private lateinit var baseURL: String
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -31,6 +31,8 @@ class ComidaActivity : AppCompatActivity() {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
+
+        baseURL = baseContext.getString(R.string.baseURL)
 
         if(intent.extras != null) {
             val intent = intent
@@ -77,6 +79,9 @@ class ComidaActivity : AppCompatActivity() {
                             if(menu.Id_Cafeteria == idCafeteria) {
                                 datos.add(
                                     Comida(
+                                        menu.Id_Comida,
+                                        menu.Id_Cafeteria,
+                                        menu.Id_Sucursal,
                                         menu.Nombre,
                                         menu.Precio.toFloat(),
                                         menu.TiempoPrepa,

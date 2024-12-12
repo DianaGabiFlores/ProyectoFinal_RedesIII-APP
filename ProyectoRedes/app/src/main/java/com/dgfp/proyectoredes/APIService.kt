@@ -30,4 +30,6 @@ interface APIService {
     @POST("pedido/entregado")
     fun pedidoEntregado(@Body orden: DCOrden): Call<Boolean>
 
+    @POST("pedido/agregar")
+    fun setPedido(@Body pedido: DCPostPedido): Call<DCPedidoResponse>
 }

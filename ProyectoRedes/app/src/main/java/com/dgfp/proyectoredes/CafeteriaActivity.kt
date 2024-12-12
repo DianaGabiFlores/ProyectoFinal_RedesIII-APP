@@ -23,7 +23,7 @@ class CafeteriaActivity : AppCompatActivity() {
     var adaptador: CafeteriaAdapter? = null
     var datos: ArrayList<Cafeteria> = ArrayList()
     var db: DBSQLite = DBSQLite(this) //Base de Datos
-    private var baseURL = "http://192.168.100.53:3000/"
+    private lateinit var baseURL: String
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -34,6 +34,8 @@ class CafeteriaActivity : AppCompatActivity() {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
+
+        baseURL = baseContext.getString(R.string.baseURL)
 
         //Verificar que se obtuviron los datos del usuario
         var datosUsuario: Vector<String> = db.obtenerUsuario()

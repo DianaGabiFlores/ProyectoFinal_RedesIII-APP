@@ -59,4 +59,14 @@
         android:text="Lista de Ingredientes"
         android:textSize="18sp"/>
 
+    <Button
+        android:id="@+id/btnOrdenar"
+        android:layout_gravity="center"
+        android:layout_marginTop="25dp"
+        android:backgroundTint="@color/rosa"
+        android:text="@string/ordenar"
+        android:textColor="@color/white"
+        android:layout_width="300dp"
+        android:layout_height="50dp"/>
+
 </LinearLayout>

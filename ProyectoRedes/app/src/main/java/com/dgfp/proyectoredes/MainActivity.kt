@@ -23,7 +23,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var txtCorreo: EditText
     private lateinit var txtContrasena: EditText
     var db: DBSQLite = DBSQLite(this) //Base de Datos
-    private var baseURL = "http://192.168.100.53:3000/"
+    private lateinit var baseURL: String
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -35,6 +35,7 @@ class MainActivity : AppCompatActivity() {
             insets
         }
 
+        baseURL = baseContext.getString(R.string.baseURL)
         btnLogin = findViewById(R.id.btnLogin)
         btnCrearCuenta = findViewById(R.id.btnCrearCuenta)
         txtCorreo = findViewById(R.id.txtCorreo)
