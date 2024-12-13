@@ -1,9 +1,12 @@
 package com.dgfp.proyectoredes
 
 import android.content.Intent
+import android.content.pm.PackageManager
+import android.net.Uri
 import android.os.Bundle
 import android.view.View
 import android.widget.AdapterView
+import android.widget.Button
 import android.widget.ListView
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
@@ -20,6 +23,7 @@ class ComidaActivity : AppCompatActivity() {
     private var toast: Toast? = null
     var adaptadorDatos: ComidaAdapter? = null
     var datos: ArrayList<Comida> = ArrayList()
+    private lateinit var btnWhatsApp: Button
     private lateinit var baseURL: String
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -32,6 +36,7 @@ class ComidaActivity : AppCompatActivity() {
             insets
         }
 
+        btnWhatsApp = findViewById(R.id.btnWhatsApp)
         baseURL = baseContext.getString(R.string.baseURL)
 
         if(intent.extras != null) {
@@ -57,6 +62,9 @@ class ComidaActivity : AppCompatActivity() {
             val intent = Intent(this@ComidaActivity, OrdenarActivity::class.java)
             intent.putExtra("comida", comida)
             startActivity(intent)
+        }
+        btnWhatsApp.setOnClickListener {
+            contactar()
         }
     }
 
@@ -103,6 +111,32 @@ class ComidaActivity : AppCompatActivity() {
                 mostrarToast("Error de conexión: " + t.message)
             }
         })
+    }
+
+    fun contactar() {
+        var telefono: String = "4492109730"
+        var mensaje: String = "Hola"
+        var instalado: Boolean = isAppInstalled("com.whatsapp")
+
+        if(instalado) {
+            val intent: Intent = Intent(Intent.ACTION_VIEW)
+            intent.setData(Uri.parse("http://api.whatsapp.com/send?phone=$telefono&text=$mensaje"))
+            startActivity(intent)
+        }
+        else {
+            mostrarToast("WhatsApp no está instalado.")
+        }
+    }
+
+    fun isAppInstalled(aplicacion: String): Boolean {
+        try {
+            packageManager.getPackageInfo(aplicacion, PackageManager.GET_ACTIVITIES)
+            return true
+        }
+        catch(e: PackageManager.NameNotFoundException) {
+            e.printStackTrace()
+            return false
+        }
     }
 
     fun mostrarToast(mensaje: String) {

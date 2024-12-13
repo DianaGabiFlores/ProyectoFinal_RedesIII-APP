@@ -7,6 +7,15 @@
     android:layout_height="match_parent"
     tools:context=".ComidaActivity">
 
+    <Button
+        android:id="@+id/btnWhatsApp"
+        android:layout_gravity="center"
+        android:backgroundTint="@color/rosa"
+        android:text="Prueba WhatsApp"
+        android:textColor="@color/white"
+        android:layout_width="300dp"
+        android:layout_height="50dp"/>
+
     <ListView
         android:id="@+id/lvComidas"
         android:layout_width="match_parent"
