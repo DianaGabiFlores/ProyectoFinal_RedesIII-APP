@@ -62,8 +62,9 @@ class CafeteriaActivity : AppCompatActivity() {
                 else mostrarToast(item.getNombreCaferia())
 
                 val intent = Intent(this@CafeteriaActivity, ComidaActivity::class.java)
-                intent.putExtra("id", ""+item.getIDCafeteria())
-                intent.putExtra("cafeteria", ""+item.getNombreCaferia())
+                intent.putExtra("idCafeteria", ""+item.getIDCafeteria())
+                intent.putExtra("idSucursal", ""+item.getIDSucursal())
+                intent.putExtra("nombreCafeteria", ""+item.getNombreCaferia())
                 startActivity(intent)
             }
         })
@@ -97,9 +98,10 @@ class CafeteriaActivity : AppCompatActivity() {
                             for(sucursal in cafeteria.Sucursales) {
                                 datos.add(
                                     Cafeteria(
-//                                        R.drawable.ic_launcher_background,
+                                        //R.drawable.ic_launcher_background,
                                         R.drawable.casa,
                                         cafeteria.Id_Cafeteria,
+                                        sucursal.Id_Sucursal,
                                         cafeteria.Nombre,
                                         sucursal.Nombre,
                                         sucursal.Edificio,

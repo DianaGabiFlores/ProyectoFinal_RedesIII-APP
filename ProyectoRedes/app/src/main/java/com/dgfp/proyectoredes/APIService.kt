@@ -32,4 +32,7 @@ interface APIService {
 
     @POST("pedido/agregar")
     fun setPedido(@Body pedido: DCPostPedido): Call<DCPedidoResponse>
+
+    @GET("telefonos/encargados")
+    fun getTelefonosCafeterias(): Call<List<DCTelefonoEncargado>>
 }

@@ -1,24 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main"
-    android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".ComidaActivity">
-
-    <Button
-        android:id="@+id/btnWhatsApp"
-        android:layout_gravity="center"
-        android:backgroundTint="@color/rosa"
-        android:text="Prueba WhatsApp"
-        android:textColor="@color/white"
-        android:layout_width="300dp"
-        android:layout_height="50dp"/>
 
     <ListView
         android:id="@+id/lvComidas"
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>
 
-</LinearLayout>
+    <ImageView
+        android:id="@+id/btnWhatsApp"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="16dp"
+        android:background="@drawable/baseline_chat_24"/>
+
+</RelativeLayout>

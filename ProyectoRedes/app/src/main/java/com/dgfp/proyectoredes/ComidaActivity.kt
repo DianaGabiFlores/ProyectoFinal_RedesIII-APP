@@ -7,6 +7,7 @@ import android.os.Bundle
 import android.view.View
 import android.widget.AdapterView
 import android.widget.Button
+import android.widget.ImageView
 import android.widget.ListView
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
@@ -23,7 +24,7 @@ class ComidaActivity : AppCompatActivity() {
     private var toast: Toast? = null
     var adaptadorDatos: ComidaAdapter? = null
     var datos: ArrayList<Comida> = ArrayList()
-    private lateinit var btnWhatsApp: Button
+    private lateinit var btnWhatsApp: ImageView
     private lateinit var baseURL: String
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -39,11 +40,15 @@ class ComidaActivity : AppCompatActivity() {
         btnWhatsApp = findViewById(R.id.btnWhatsApp)
         baseURL = baseContext.getString(R.string.baseURL)
 
+        var idCafeteria: String? = null
+        var idSucursal: String? = null
+        var nombreCafeteria: String? = null
         if(intent.extras != null) {
             val intent = intent
-            val idCafeteria = intent.getStringExtra("id")
-            val nombreCafeteria = intent.getStringExtra("cafeteria")
-            obtenerMenus(idCafeteria!!, nombreCafeteria!!)
+            idCafeteria = intent.getStringExtra("idCafeteria").toString()
+            idSucursal = intent.getStringExtra("idSucursal").toString()
+            nombreCafeteria = intent.getStringExtra("nombreCafeteria").toString()
+            obtenerMenus(idCafeteria, nombreCafeteria)
         }
 
         val listview = findViewById<ListView>(R.id.lvComidas)
@@ -64,7 +69,12 @@ class ComidaActivity : AppCompatActivity() {
             startActivity(intent)
         }
         btnWhatsApp.setOnClickListener {
-            contactar()
+            if(idCafeteria != null && idSucursal != null) {
+                obtenerTelefonoCafeteria(idCafeteria, idSucursal)
+            }
+            else {
+                mostrarToast("Error al obtener el ID de Cafetería y Sucursal")
+            }
         }
     }
 
@@ -113,8 +123,41 @@ class ComidaActivity : AppCompatActivity() {
         })
     }
 
-    fun contactar() {
-        var telefono: String = "4492109730"
+    fun obtenerTelefonoCafeteria(idCafeteria: String, idSucursal: String) {
+        val retrofit = Retrofit.Builder()
+            .baseUrl(baseURL)
+            .addConverterFactory(GsonConverterFactory.create())
+            .build()
+        val apiService = retrofit.create(APIService::class.java)
+
+        apiService.getTelefonosCafeterias().enqueue(object : Callback<List<DCTelefonoEncargado>> {
+            override fun onResponse(call: Call<List<DCTelefonoEncargado>>, response: Response<List<DCTelefonoEncargado>>) {
+
+                if(response.isSuccessful) {
+                    val cafeterias = response.body()
+                    var telefono: String? = null
+
+                    if(cafeterias != null) {
+                        for(cafeteria in cafeterias) {
+                            if(idCafeteria == cafeteria.Id_Cafeteria && idSucursal == cafeteria.Id_Sucursal && telefono == null) {
+                                telefono = cafeteria.Telefono
+                            }
+                        }
+                        if(telefono != null) {
+                            contactar(telefono)
+                        }
+                        else mostrarToast("Teléfono no disponible para esta cafetería.")
+                    }
+                }
+            }
+            override fun onFailure(call: Call<List<DCTelefonoEncargado>>, t: Throwable) {
+                //Manejo de error
+                mostrarToast("Error de conexión: " + t.message)
+            }
+        })
+    }
+
+    fun contactar(telefono: String) {
         var mensaje: String = "Hola"
         var instalado: Boolean = isAppInstalled("com.whatsapp")
 

@@ -3,6 +3,7 @@ package com.dgfp.proyectoredes
 class Cafeteria {
     private var imagen: Int
     private var idCafeteria: String
+    private var idSucursal: String
     private var nombreCafeteria: String
     private var nombreSucursal: String? = null //Norte, Sur, Central
     private var horario: String
@@ -17,6 +18,7 @@ class Cafeteria {
         nCafeteria++
         this.imagen = R.drawable.ic_launcher_background
         this.idCafeteria = nCafeteria.toString()
+        this.idSucursal = nCafeteria.toString()
         this.nombreCafeteria = "Nombre Cafetería" + nCafeteria
         this.nombreSucursal = "Nombre Sucursal" + nCafeteria
         this.edificio = "Edificio" + nCafeteria
@@ -24,9 +26,10 @@ class Cafeteria {
         this.horario = "Horario" + nCafeteria
     }
 
-    constructor(imagen: Int, idCafeteria: String, nombreCafeteria: String, nombreSucursal: String?, edificio: String, local: String, horario: String) {
+    constructor(imagen: Int, idCafeteria: String, idSucursal: String, nombreCafeteria: String, nombreSucursal: String?, edificio: String, local: String, horario: String) {
         nCafeteria++
         this.idCafeteria = idCafeteria
+        this.idSucursal = idSucursal
         this.imagen = imagen
         this.nombreCafeteria = nombreCafeteria
         if(nombreSucursal != null) {
@@ -49,6 +52,13 @@ class Cafeteria {
     }
     fun setIDCafeteria(idCafeteria: String) {
         this.idCafeteria = idCafeteria
+    }
+
+    fun getIDSucursal(): String {
+        return idSucursal
+    }
+    fun setIDSucursal(idSucursal: String) {
+        this.idSucursal = idSucursal
     }
 
     fun getNombreCaferia(): String {
