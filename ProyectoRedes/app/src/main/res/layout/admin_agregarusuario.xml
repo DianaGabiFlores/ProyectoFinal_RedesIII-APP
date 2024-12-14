@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+   android:orientation="vertical"
+    android:background="@color/white"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:text="Cambiar Usuarios"
+        android:textSize="30dp"
+        android:textAlignment="center"
+        android:layout_marginTop="30dp"
+        android:layout_marginBottom="100dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
+    <Spinner
+        android:id="@+id/spnUsuarios"
+        android:layout_gravity="center"
+        android:background="@drawable/border"
+        android:textAlignment="center"
+        android:layout_width="300dp"
+        android:layout_height="50dp" />
+
+
+    <Spinner
+        android:id="@+id/spnTipo"
+        android:layout_gravity="center"
+        android:background="@drawable/border"
+        android:textAlignment="center"
+        android:layout_marginTop="60dp"
+
+        android:layout_width="300dp"
+        android:layout_height="50dp" />
+
+
+    <Button
+        android:id="@+id/btnCambiar"
+        android:layout_marginTop="60dp"
+        android:text="Cambiar"
+        android:backgroundTint="@color/rosa"
+        android:layout_gravity="center"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"/>
+
+
+</LinearLayout>

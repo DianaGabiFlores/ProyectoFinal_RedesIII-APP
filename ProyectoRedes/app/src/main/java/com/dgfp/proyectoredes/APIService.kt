@@ -4,6 +4,7 @@ import retrofit2.Call
 import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.POST
+import retrofit2.http.Query
 
 interface APIService {
     @POST("login")
@@ -32,4 +33,12 @@ interface APIService {
 
     @POST("pedido/agregar")
     fun setPedido(@Body pedido: DCPostPedido): Call<DCPedidoResponse>
+
+    @GET ("v2/directions/driving-car")
+    suspend fun getRoute(
+        @Query("api_key") key: String,
+        @Query("start", encoded = true) start:String,
+        @Query("end", encoded = true) end:String
+    ): Call<RouteRensponse>
+
 }
