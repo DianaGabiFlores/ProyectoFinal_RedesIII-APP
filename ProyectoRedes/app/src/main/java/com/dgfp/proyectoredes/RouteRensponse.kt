@@ -2,6 +2,6 @@ package com.dgfp.proyectoredes
 
 import com.google.gson.annotations.SerializedName
 
-data class RouteRensponse(@SerializedName("features") val features:List<Feature>)
+data class RouteResponse(@SerializedName("features")val features:List<Feature>)
 data class Feature(@SerializedName("geometry") val geometry:Geometry)
-data class Geometry(@SerializedName("coordinates") val coordinates:List<List<Double>>)
+data class Geometry(@SerializedName("coordinates") val coordinates:List<List<Double>> )

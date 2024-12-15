@@ -24,6 +24,7 @@ import com.google.maps.android.PolyUtil
 import org.json.JSONObject
 import android.R
 import android.util.Log
+import com.google.android.gms.maps.model.Polyline
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -37,11 +38,13 @@ class PruebaMapa : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMyLocati
     GoogleMap.OnMarkerClickListener, GoogleMap.OnInfoWindowClickListener{
 
     private lateinit var map: GoogleMap
+    var poly: Polyline? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(com.dgfp.proyectoredes.R.layout.mapactivity)
         createMapFragment()
+
     }
     private fun createMapFragment() {
         val mapFragment = supportFragmentManager
@@ -67,6 +70,7 @@ class PruebaMapa : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMyLocati
     }
 
     private fun createMarker(){
+        val prueba = LatLng(8.687872,49.420318)
         val cafeteriaSurLL = LatLng(21.91000751748219, -102.31502264641846)
         val cafeteriaSur = map.addMarker(
             MarkerOptions()
@@ -115,12 +119,12 @@ class PruebaMapa : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMyLocati
 
 
         map.animateCamera(
-            CameraUpdateFactory.newLatLngZoom(cafeteriaSurLL, 18f),
+            CameraUpdateFactory.newLatLngZoom(prueba, 18f),
             4000,
             null
         )
-        createRoute()
 
+//        createRoute()
     }
 
     private fun isPermissionsGranted() = ContextCompat.checkSelfPermission(
@@ -275,38 +279,26 @@ class PruebaMapa : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMyLocati
         CoroutineScope(Dispatchers.IO).launch {
 
             val call = getRetrofit().create(APIService::class.java)
-                .getRoute(
-                    "5b3ce3597851110001cf6248822808c5ec3346d5b18e9670fff08967",
-                    "21.914137570362808, -102.31462639530848",
-                    "21.91710769143836, -102.31514356066208"
-                )
-                call.enqueue(object : Callback<RouteRensponse>  {
-                    override fun onResponse(
-                        call: Call<RouteRensponse>,
-                        response: retrofit2.Response<RouteRensponse>
-                    ) {
-                        if(response.isSuccessful) {
-//                            Toast.makeText(this@PruebaMapa, "Entro", Toast.LENGTH_SHORT).show()
-                            drawRoute(response.body())
-                        }
-                    }
+                .getRoute("5b3ce3597851110001cf6248822808c5ec3346d5b18e9670fff08967", "8.681495,49.41461", "8.687872,49.420318")
 
-                    override fun onFailure(call: Call<RouteRensponse>, t: Throwable) {
-                        TODO("Not yet implemented")
-                    }
+            Log.i("call", call.toString())
+            if (call.isSuccessful) {
+                drawRoute(call.body())
+            } else {
+                Log.i("aris", "KO")
+            }
 
-                })
 
         }
     }
 
-    private fun drawRoute(routeResponse: RouteRensponse?) {
+    private fun drawRoute(routeResponse: RouteResponse?) {
         val polyLineOptions = PolylineOptions()
-        routeResponse?.features?.first()?.geometry?.coordinates?.forEach{
+        routeResponse?.features?.first()?.geometry?.coordinates?.forEach {
             polyLineOptions.add(LatLng(it[1], it[0]))
         }
-        runOnUiThread{
-            val poly = map.addPolyline(polyLineOptions)
+        runOnUiThread {
+            poly = map.addPolyline(polyLineOptions)
         }
     }
 

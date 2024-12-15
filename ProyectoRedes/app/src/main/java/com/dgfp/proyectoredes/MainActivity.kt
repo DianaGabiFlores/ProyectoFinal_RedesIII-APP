@@ -142,8 +142,15 @@ class MainActivity : AppCompatActivity() {
                             //Guardar en la BD
                             db.insertarUsuario(usuario.Id_Usuario, usuario.Nombre, usuario.Primer_Apellido,
                                 usuario.Segundo_Apellido, contrasena, usuario.Telefono, correo, usuario.Tipo)
-                            val intent = Intent(this@MainActivity, CafeteriaActivity::class.java)
-                            startActivity(intent)
+                            if(usuario.Tipo.equals("Admin")){
+                                val intent =
+                                    Intent(this@MainActivity, Admin_CambiarUsu::class.java)
+                                startActivity(intent)
+                            }else {
+                                val intent =
+                                    Intent(this@MainActivity, CafeteriaActivity::class.java)
+                                startActivity(intent)
+                            }
                         }
                     }
 
