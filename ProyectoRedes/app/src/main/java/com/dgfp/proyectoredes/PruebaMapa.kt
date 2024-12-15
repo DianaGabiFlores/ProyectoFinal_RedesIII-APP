@@ -2,52 +2,75 @@ package com.dgfp.proyectoredes
 
 import android.Manifest
 import android.content.pm.PackageManager
-import android.location.Location
+import android.graphics.Color
 import android.os.Bundle
-import android.widget.Button
-import android.widget.EditText
 import android.widget.Toast
-import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
+import androidx.privacysandbox.tools.core.model.Method
+import com.android.volley.Response
+import com.android.volley.toolbox.StringRequest
+import com.android.volley.toolbox.Volley
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
-import com.google.android.gms.maps.UiSettings
-import com.google.android.gms.maps.model.BitmapDescriptorFactory
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.Marker
 import com.google.android.gms.maps.model.MarkerOptions
+import com.google.android.gms.maps.model.PolylineOptions
+import com.google.maps.android.PolyUtil
+import org.json.JSONObject
+import android.R
+import android.util.Log
+import com.google.android.gms.maps.model.Polyline
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Retrofit
+import retrofit2.converter.gson.GsonConverterFactory
+
 
 class PruebaMapa : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMyLocationButtonClickListener,
-    GoogleMap.OnMarkerClickListener, GoogleMap.OnInfoWindowClickListener {
+    GoogleMap.OnMarkerClickListener, GoogleMap.OnInfoWindowClickListener{
 
     private lateinit var map: GoogleMap
+    var poly: Polyline? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.mapactivity)
+        setContentView(com.dgfp.proyectoredes.R.layout.mapactivity)
         createMapFragment()
+
     }
     private fun createMapFragment() {
         val mapFragment = supportFragmentManager
-            .findFragmentById(R.id.map) as SupportMapFragment
+            .findFragmentById(com.dgfp.proyectoredes.R.id.map) as SupportMapFragment
         mapFragment.getMapAsync(this)
     }
+
     override fun onMapReady(googleMap: GoogleMap) {
         map = googleMap
         map.setMinZoomPreference(6.0f)
         map.setMaxZoomPreference(25.0f)
         createMarker()
         enableMyLocation()
+        map.setOnMarkerClickListener { marker ->
+            if (marker.isInfoWindowShown) {
+                marker.hideInfoWindow()
+            } else {
+                marker.showInfoWindow()
+            }
+            true
+        }
 
     }
 
     private fun createMarker(){
+        val prueba = LatLng(8.687872,49.420318)
         val cafeteriaSurLL = LatLng(21.91000751748219, -102.31502264641846)
         val cafeteriaSur = map.addMarker(
             MarkerOptions()
@@ -96,10 +119,12 @@ class PruebaMapa : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMyLocati
 
 
         map.animateCamera(
-            CameraUpdateFactory.newLatLngZoom(cafeteriaSurLL, 18f),
+            CameraUpdateFactory.newLatLngZoom(prueba, 18f),
             4000,
             null
         )
+
+//        createRoute()
     }
 
     private fun isPermissionsGranted() = ContextCompat.checkSelfPermission(
@@ -219,6 +244,12 @@ class PruebaMapa : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMyLocati
     override fun onMarkerClick(marker: Marker): Boolean {
         // Retrieve the data from the marker.
         val clickCount = marker.tag as? Int
+        Toast.makeText(
+            this,
+            "${marker.title}",
+            Toast.LENGTH_SHORT
+        ).show()
+
 
         // Check if a click count was set, then display the click count.
         clickCount?.let {
@@ -244,19 +275,37 @@ class PruebaMapa : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMyLocati
         ).show()
     }
 
-//    fun calcRoute() {
-//        var start = " "
-//        var end = " "
-//        var request = {
-//                origin: start,
-//                destination: end,
-//                travelMode: 'DRIVING'
-//        };
-//        directionsService.route(request, function(result, status) {
-//            if (status == 'OK') {
-//                directionsRenderer.setDirections(result);
-//            }
-//        });
-//    }
+    fun createRoute() {
+        CoroutineScope(Dispatchers.IO).launch {
 
+            val call = getRetrofit().create(APIService::class.java)
+                .getRoute("5b3ce3597851110001cf6248822808c5ec3346d5b18e9670fff08967", "8.681495,49.41461", "8.687872,49.420318")
+
+            Log.i("call", call.toString())
+            if (call.isSuccessful) {
+                drawRoute(call.body())
+            } else {
+                Log.i("aris", "KO")
+            }
+
+
+        }
+    }
+
+    private fun drawRoute(routeResponse: RouteResponse?) {
+        val polyLineOptions = PolylineOptions()
+        routeResponse?.features?.first()?.geometry?.coordinates?.forEach {
+            polyLineOptions.add(LatLng(it[1], it[0]))
+        }
+        runOnUiThread {
+            poly = map.addPolyline(polyLineOptions)
+        }
+    }
+
+    fun getRetrofit(): Retrofit {
+        return Retrofit.Builder()
+            .baseUrl("https://api.openrouteservice.org/")
+            .addConverterFactory(GsonConverterFactory.create())
+            .build()
+    }
 }

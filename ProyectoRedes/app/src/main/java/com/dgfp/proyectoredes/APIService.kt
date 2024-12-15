@@ -1,9 +1,11 @@
 package com.dgfp.proyectoredes
 
 import retrofit2.Call
+import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.POST
+import retrofit2.http.Query
 
 interface APIService {
     @POST("login")
@@ -35,4 +37,23 @@ interface APIService {
 
     @GET("telefonos/encargados")
     fun getTelefonosCafeterias(): Call<List<DCTelefonoEncargado>>
+    @GET("/v2/directions/driving-car")
+    suspend fun getRoute(
+        @Query("api_key") key: String,
+        @Query("start", encoded = true) start: String,
+        @Query("end", encoded = true) end: String
+    ): Response<RouteResponse>
+
+    @POST("usuario/info")
+    fun getUsuarios(@Body user: DCUser): Call<List<DCUsuarioDatos>>
+
+    @GET("cafeusu/cafeterias")
+    fun getSucursalesCaf(): Call<List<DCSucCaf>>
+
+    @POST("cafeusu/Sucursal")
+    fun getSucursales(@Body user: DCUser): Call<List<DCSucursal>>
+
+    @POST("usuario/cambiar")
+    fun cambiarUsu(@Body usuario: DCUserTipo ) :Call<DCResponse>
+
 }

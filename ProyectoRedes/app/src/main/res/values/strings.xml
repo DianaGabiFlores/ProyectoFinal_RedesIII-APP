@@ -10,7 +10,7 @@
     <string name="crearCuenta">Regístrate</string>
     <string name="mensajeCrearC">¿Aún no cuentas con una cuenta?</string>
     <string name="ordenar">Ordenar</string>
-    <string name="baseURL">http://192.168.1.163:3000/</string>
+    <string name="baseURL">http://10.0.0.10:3000/</string>
 
     <string-array name="tipoCliente">
         <item>Cliente</item>
