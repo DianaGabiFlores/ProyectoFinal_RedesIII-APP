@@ -103,7 +103,7 @@ class PedidosCActivity : AppCompatActivity() {
             .addConverterFactory(GsonConverterFactory.create())
             .build()
         val apiService = retrofit.create(APIService::class.java)
-        val id_usuario = DCUser(user.toInt())
+        val id_usuario = DCUser(user)
         apiService.getPedidos(id_usuario).enqueue(object : Callback<List<PedidosInfo>> {
             override fun onResponse(call: Call<List<PedidosInfo>>, response: Response<List<PedidosInfo>>) {
                 if (response.isSuccessful) {
@@ -152,7 +152,7 @@ class PedidosCActivity : AppCompatActivity() {
             .addConverterFactory(GsonConverterFactory.create())
             .build()
         val apiService = retrofit.create(APIService::class.java)
-        val id_usuario = DCUser(user.toInt())
+        val id_usuario = DCUser(user)
         apiService.getPedidosEnc(id_usuario).enqueue(object : Callback<List<DCPedidosEnc>> {
             override fun onResponse(call: Call<List<DCPedidosEnc>>, response: Response<List<DCPedidosEnc>>) {
                 if (response.isSuccessful) {

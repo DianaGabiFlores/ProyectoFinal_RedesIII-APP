@@ -2,6 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
+    android:background="@color/white"
     android:padding="5dp" >
 
     <ImageView
@@ -9,7 +10,9 @@
         android:layout_width="80dp"
         android:layout_height="80dp"
         android:scaleType="centerCrop"
-        android:src="@drawable/ic_launcher_background" />
+        android:gravity="center_vertical"
+        android:layout_centerVertical="true"
+        android:src="@drawable/casa" />
 
     <TextView
         android:id="@+id/info_window_nombre"
@@ -18,10 +21,10 @@
         android:layout_alignParentTop="true"
         android:layout_toRightOf="@id/info_window_imagen"
         android:paddingLeft="5dp"
-        android:text="Carlo Estrada Solano" />
+        android:text="Sucursal" />
 
     <TextView
-        android:id="@+id/info_window_placas"
+        android:id="@+id/info_window_local"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textStyle="bold"
@@ -29,15 +32,25 @@
         android:layout_below="@id/info_window_nombre"
         android:layout_toRightOf="@id/info_window_imagen"
         android:paddingLeft="5dp"
-        android:text="Placas: SX5487" />
+        android:text="Local: " />
 
     <TextView
-        android:id="@+id/info_window_estado"
+        android:id="@+id/info_window_cafe1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/info_window_placas"
+        android:layout_below="@id/info_window_local"
         android:layout_toRightOf="@id/info_window_imagen"
         android:paddingLeft="5dp"
-        android:text="Estado: Activo" />
+        android:textStyle="bold"
+        android:text="Cafeterías:" />
+
+    <TextView
+        android:id="@+id/info_window_cafe"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/info_window_cafe1"
+        android:layout_toRightOf="@id/info_window_imagen"
+        android:paddingLeft="5dp"
+        />
 
 </RelativeLayout>

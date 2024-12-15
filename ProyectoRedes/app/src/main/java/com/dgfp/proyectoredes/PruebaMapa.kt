@@ -1,17 +1,14 @@
 package com.dgfp.proyectoredes
 
 import android.Manifest
+import android.annotation.SuppressLint
 import android.content.pm.PackageManager
-import android.graphics.Color
 import android.os.Bundle
+import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
-import androidx.privacysandbox.tools.core.model.Method
-import com.android.volley.Response
-import com.android.volley.toolbox.StringRequest
-import com.android.volley.toolbox.Volley
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
@@ -19,17 +16,11 @@ import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.Marker
 import com.google.android.gms.maps.model.MarkerOptions
-import com.google.android.gms.maps.model.PolylineOptions
-import com.google.maps.android.PolyUtil
-import org.json.JSONObject
-import android.R
-import android.util.Log
 import com.google.android.gms.maps.model.Polyline
+import com.google.android.gms.maps.model.PolylineOptions
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import retrofit2.Call
-import retrofit2.Callback
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
@@ -52,6 +43,7 @@ class PruebaMapa : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMyLocati
         mapFragment.getMapAsync(this)
     }
 
+    @SuppressLint("PotentialBehaviorOverride")
     override fun onMapReady(googleMap: GoogleMap) {
         map = googleMap
         map.setMinZoomPreference(6.0f)
@@ -60,6 +52,7 @@ class PruebaMapa : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMyLocati
         enableMyLocation()
         map.setOnMarkerClickListener { marker ->
             if (marker.isInfoWindowShown) {
+                Toast.makeText(this, "Entro", Toast.LENGTH_SHORT).show()
                 marker.hideInfoWindow()
             } else {
                 marker.showInfoWindow()
@@ -70,16 +63,20 @@ class PruebaMapa : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMyLocati
     }
 
     private fun createMarker(){
+
+        //Set Custom InfoWindow Adapter
+        val adapter: InfoWindowAdapter = InfoWindowAdapter(this@PruebaMapa)
+        map.setInfoWindowAdapter(adapter)
+
         val prueba = LatLng(8.687872,49.420318)
         val cafeteriaSurLL = LatLng(21.91000751748219, -102.31502264641846)
         val cafeteriaSur = map.addMarker(
             MarkerOptions()
                 .position(cafeteriaSurLL)
                 .title("Cafetería Sur")
-                .snippet("Lista de cafeterias \n Hola \n asdfsa \n asdfsfd")
-//                .icon(BitmapDescriptorFactory.fromResource(R.drawable.iconcafe))
+                .snippet("210")
+    //                .icon(BitmapDescriptorFactory.fromResource(R.drawable.iconcafe))
         )
-        cafeteriaSur?.showInfoWindow()
 
 
         val cafeteriaOrienteLL = LatLng(21.913336757793253, -102.31773449396881)
@@ -87,16 +84,16 @@ class PruebaMapa : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMyLocati
             MarkerOptions()
                 .position(cafeteriaOrienteLL)
                 .title("Cafetería Oriente")
-                .snippet("Lista de cafeterias \n Hola \n asdfsa \n asdfsfd")
+                .snippet("47")
 //                .icon(BitmapDescriptorFactory.fromResource(R.drawable.iconcafe))
-        )
+        )?.showInfoWindow()
 
         val comedorUniLL = LatLng(21.914137570362808, -102.31462639530848)
         val comedorUni = map.addMarker(
             MarkerOptions()
                 .position(comedorUniLL)
                 .title("Comedor Universitario")
-                .snippet("Lista de cafeterias \n Hola \n asdfsa \n asdfsfd")
+                .snippet("9")
 //                .icon(BitmapDescriptorFactory.fromResource(R.drawable.iconcafe))
         )
 
@@ -104,8 +101,8 @@ class PruebaMapa : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMyLocati
         val cafeteriaCS = map.addMarker(
             MarkerOptions()
                 .position(cafeteriaCSLL)
-                .title("Cafetería Área Médica")
-                .snippet("Lista de cafeterias \n Hola \n asdfsa \n asdfsfd")
+                .title("Cafetería de Ciencias de la Salud")
+                .snippet("104")
 //                .icon(BitmapDescriptorFactory.fromResource(R.drawable.iconcafe))
         )
         val cafeteriaNorteLL = LatLng(21.917169969739, -102.319348465737)
@@ -113,13 +110,13 @@ class PruebaMapa : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMyLocati
             MarkerOptions()
                 .position(cafeteriaNorteLL)
                 .title("Cafetería Norte")
-                .snippet("Lista de cafeterias \n Hola \n asdfsa \n asdfsfd")
+                .snippet("122")
 //                .icon(BitmapDescriptorFactory.fromResource(R.drawable.iconcafe))
         )
 
 
         map.animateCamera(
-            CameraUpdateFactory.newLatLngZoom(prueba, 18f),
+            CameraUpdateFactory.newLatLngZoom(cafeteriaOrienteLL, 18f),
             4000,
             null
         )

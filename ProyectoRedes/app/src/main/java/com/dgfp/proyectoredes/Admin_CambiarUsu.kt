@@ -180,7 +180,7 @@ class Admin_CambiarUsu : AppCompatActivity() {
             .build()
         val apiService = retrofit.create(APIService::class.java)
 
-        val userId = DCUser(user)
+        val userId = DCUser(user.toString())
         apiService.getUsuarios(userId).enqueue(object : Callback<List<DCUsuarioDatos>> {
             override fun onResponse(
                 call: Call<List<DCUsuarioDatos>>,
@@ -257,7 +257,7 @@ class Admin_CambiarUsu : AppCompatActivity() {
             .addConverterFactory(GsonConverterFactory.create())
             .build()
         val apiService = retrofit.create(APIService::class.java)
-        val cafeteria = DCUser(cafe.toInt())
+        val cafeteria = DCUser(cafe)
         apiService.getSucursales(cafeteria).enqueue(object : Callback<List<DCSucursal>> {
             override fun onResponse(
                 call: Call<List<DCSucursal>>,

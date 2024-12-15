@@ -56,4 +56,6 @@ interface APIService {
     @POST("usuario/cambiar")
     fun cambiarUsu(@Body usuario: DCUserTipo ) :Call<DCResponse>
 
+    @POST("sucursal/cafeterias")
+    fun getCafeteriasSucursal(@Body suc: DCUser) : Call<DCCafeteriaNombre>
 }

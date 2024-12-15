@@ -1,5 +1,5 @@
 package com.dgfp.proyectoredes
 
-data class DCUser (
-    val Id_Usuario: Int
+data class DCUser(
+    val Id_Usuario: String
 )
