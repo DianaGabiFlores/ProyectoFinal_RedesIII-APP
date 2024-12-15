@@ -5,6 +5,7 @@ class Pedidos {
     private var nombreCafeteria: String
     private var nombreSucursal: String? = null //Norte, Sur, Central
     private var nombreComida: String
+    private var idOrden: Int
     private var tipoP: Char
     private var pagado: Char
     private var precio: String
@@ -14,8 +15,9 @@ class Pedidos {
         var nPedidos = 0
     }
 
-    constructor(imagen: Int, nombreCafeteria: String, nombreSucursal: String?, nombreComida: String, tipoP: Char, precio: String, tiempo: String, pagado: Char, fechaP: String) {
+    constructor(imagen: Int, idOrden: Int, nombreCafeteria: String, nombreSucursal: String?, nombreComida: String, tipoP: Char, precio: String, tiempo: String, pagado: Char, fechaP: String) {
         nPedidos++
+        this.idOrden = idOrden
         this.imagen = imagen
         this.nombreCafeteria = nombreCafeteria
         if(nombreSucursal != null) {
@@ -35,7 +37,12 @@ class Pedidos {
     fun setImagen(imagen: Int) {
         this.imagen = imagen
     }
-
+    fun getIdOrden(): Int {
+        return idOrden
+    }
+    fun setIdOrden(idOrden: Int) {
+        this.idOrden = idOrden
+    }
     fun getNombreCaferia(): String {
         return nombreCafeteria
     }

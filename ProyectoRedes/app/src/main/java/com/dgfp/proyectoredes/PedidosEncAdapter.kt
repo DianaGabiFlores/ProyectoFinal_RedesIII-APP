@@ -1,6 +1,7 @@
 package com.dgfp.proyectoredes
 
 import android.annotation.SuppressLint
+import android.content.Context
 import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.View
@@ -19,7 +20,6 @@ import retrofit2.converter.gson.GsonConverterFactory
 
 class PedidosEncAdapter : RecyclerView.Adapter<PedidosEncAdapter.PedidosViewHolder> {
     var datos: ArrayList<PedidosEnc>
-    private var toast: Toast? = null
 
     var listener: OnItemClickListener? = null
     interface OnItemClickListener {
@@ -32,8 +32,7 @@ class PedidosEncAdapter : RecyclerView.Adapter<PedidosEncAdapter.PedidosViewHold
     }
 
     class PedidosViewHolder : RecyclerView.ViewHolder {
-        private var baseURL = "http://172.16.127.17:3000/"
-
+        private var toast: Toast? = null
         var imgqr: ImageView
         var txtComida : TextView
         var txtTipoP : TextView
@@ -41,6 +40,7 @@ class PedidosEncAdapter : RecyclerView.Adapter<PedidosEncAdapter.PedidosViewHold
         var txtFecha : TextView
         var txtPrecio : TextView
         var txtUsuario : TextView
+        var txtPagado : TextView
         var btnEntregado: Button
 
         constructor(itemView: View) : super(itemView) {
@@ -51,11 +51,12 @@ class PedidosEncAdapter : RecyclerView.Adapter<PedidosEncAdapter.PedidosViewHold
             txtFecha = itemView.findViewById(R.id.FechaP)
             txtPrecio = itemView.findViewById(R.id.PrecioP)
             txtUsuario = itemView.findViewById(R.id.orden)
+            txtPagado = itemView.findViewById(R.id.pagado)
             btnEntregado = itemView.findViewById(R.id.btnEnt)
         }
 
         fun bindPedidos(pedido: PedidosEnc, listener: OnItemClickListener?) {
-            imgqr.setImageResource( R.drawable.ic_launcher_background)
+            imgqr.setImageResource(pedido.getImagen())
             txtUsuario.append(pedido.getNombreUsuario())
             txtComida.setText(pedido.getNombreComida())
             if(pedido.getTipoP().equals('T')){
@@ -63,12 +64,19 @@ class PedidosEncAdapter : RecyclerView.Adapter<PedidosEncAdapter.PedidosViewHold
             }else{
                 txtTipoP.append("Efectivo")
             }
+            if(pedido.getPagado().equals('N')){
+                txtPagado.append(" (No pagado)")
+            }else if(pedido.getPagado().equals('S')){
+                txtPagado.append(" (Pagado)")
+            } else{
+                txtPagado.append(" (Cancelado)")
+            }
             txtTiempo.setText(pedido.getTiempo()+" min")
             txtFecha.setText(pedido.getfechaP())
             txtPrecio.setText("$"+pedido.getPrecio())
 
             btnEntregado.setOnClickListener{
-                cambiarEstado(pedido.getIdOrden())
+                cambiarEstado(pedido.getIdOrden(), itemView)
             }
 
             itemView.setOnClickListener {
@@ -77,7 +85,8 @@ class PedidosEncAdapter : RecyclerView.Adapter<PedidosEncAdapter.PedidosViewHold
 
         }
 
-        private fun cambiarEstado(orden: Int) {
+        private fun cambiarEstado(orden: Int, view:View) {
+            var baseURL = "http://10.0.0.10:3000/"
             val retrofit = Retrofit.Builder()
                 .baseUrl(baseURL)
                 .addConverterFactory(GsonConverterFactory.create())
@@ -88,14 +97,19 @@ class PedidosEncAdapter : RecyclerView.Adapter<PedidosEncAdapter.PedidosViewHold
                 override fun onResponse(call: Call<Boolean>, response: Response<Boolean>) {
                     if (response.isSuccessful) {
                         val resp = response.body()
-
+                        mostrarToast(resp.toString(), view)
                     }
                 }
-
                 override fun onFailure(call: Call<Boolean>, t: Throwable) {
                     TODO("Not yet implemented")
                 }
             })
+        }
+
+        fun mostrarToast(mensaje: String, view: View) {
+            if(toast != null) toast!!.cancel()
+            toast = Toast.makeText(view.getContext() , mensaje, Toast.LENGTH_LONG)
+            toast!!.show()
         }
     }
 
@@ -123,6 +137,7 @@ class PedidosEncAdapter : RecyclerView.Adapter<PedidosEncAdapter.PedidosViewHold
     override fun getItemCount(): Int {
         return datos.size
     }
+
 
 
 }
