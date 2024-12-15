@@ -51,7 +51,7 @@ class RegistrarActivity : AppCompatActivity() {
 
             if(txtNombre.text.toString().isNotEmpty() && txtApellidoP.text.isNotEmpty() && txtApellidoM.text.isNotEmpty() && txtTelefono.text.isNotEmpty() &&
                correo.isNotEmpty() && contrasena.isNotEmpty()) {
-                //registrarUsuario(correo, contrasena)
+                registrarUsuario()
             }
             else {
                 if(txtNombre.text.toString().isEmpty()) mostrarToast("Ingresar Nombre.")
@@ -63,76 +63,51 @@ class RegistrarActivity : AppCompatActivity() {
             }
         }
     }
-    /*
-    fun registrarUsuario(correo: String, contrasena: String) {
+
+    fun registrarUsuario() {
         //Obtener todos los usuarios
         val retrofit = Retrofit.Builder()
             .baseUrl(baseURL)
             .addConverterFactory(GsonConverterFactory.create())
             .build()
-        val apiService = retrofit.create(APIServiceUsuario::class.java)
-        apiService.getPostsUsuarios().enqueue(object : Callback<List<DCUsuario>> {
-            override fun onResponse(call: Call<List<DCUsuario>>, response: Response<List<DCUsuario>>) {
+        val apiService = retrofit.create(APIService::class.java)
+
+        val usuarioNuevo = DCUsuario(
+            Id_Usuario = "0",
+            Nombre = txtNombre.text.toString().trim(),
+            Primer_Apellido = txtApellidoP.text.toString().trim(),
+            Segundo_Apellido = txtApellidoM.text.toString().trim(),
+            Contrasena = txtContrasena.text.toString().trim(),
+            Email = txtCorreo.text.toString().trim(),
+            Telefono = txtTelefono.text.toString().trim(),
+            Tipo = "Cliente"
+        )
+
+        apiService.crearUsuario(usuarioNuevo).enqueue(object : Callback<DCRegistrarResponse> {
+            override fun onResponse(call: Call<DCRegistrarResponse>, response: Response<DCRegistrarResponse>) {
                 if(response.isSuccessful) {
-                    val usuarios = response.body()
-                    if(usuarios != null) {
-                        var existeUsuario = false
-                        for(usuario in usuarios) {
-                            if(correo == usuario.Email) {
-                                existeUsuario = true
-                            }
-                        }
-                        if(existeUsuario) {
-                            txtNombre.setText("")
-                            txtApellidoP.setText("")
-                            txtApellidoM.setText("")
-                            txtTelefono.setText("")
-                            txtCorreo.setText("")
-                            txtContrasena.setText("")
-                            mostrarToast("El correo ya está registrado.")
-                        }
-                        else {
-                            //Registrar
-                            val usuarioNuevo = DCUsuario(
-                                Id_Usuario = "5",
-                                Nombre = txtNombre.text.toString().trim(),
-                                Primer_Apellido = txtApellidoP.text.toString().trim(),
-                                Segundo_Apellido = txtApellidoM.text.toString().trim(),
-                                Contrasena = contrasena,
-                                Email = correo,
-                                Telefono = txtTelefono.text.toString().trim(),
-                                Tipo = "Cliente"
-                            )
-                            Log.d("Usuario", "$usuarioNuevo")
+                    val body = response.body()
 
-                            apiService.crearUsuario(usuarioNuevo).enqueue(object : Callback<DCUsuario> {
-                                override fun onResponse(call: Call<DCUsuario>, response: Response<DCUsuario>) {
-                                    if(response.isSuccessful) {
-                                        mostrarToast("Usuario registrado.")
-                                        val intent = Intent(this@RegistrarActivity, MainActivity::class.java)
-                                        startActivity(intent)
-                                        this@RegistrarActivity.finish()
-                                    }
-                                    else {
-                                        mostrarToast("Error al registrar el usuario: " + response.code())
-                                    }
-                                }
-
-                                override fun onFailure(call: Call<DCUsuario>, t: Throwable) {
-                                    mostrarToast("Error de conexión: ${t.message}")
-                                }
-                            })
-                        }
+                    if(body?.success == true) {
+                        val idUsuario = body.usuario
+                        mostrarToast("Usuario registrado.")
+                    }
+                    else {
+                        val mensaje = body?.message ?: "Error al registrar usuario"
+                        mostrarToast(mensaje)
                     }
                 }
+                else {
+                    if(response.code() == 400) mostrarToast("El correo ya está registrado")
+                    else mostrarToast("Error: ${response.code()}")
+                }
             }
-            override fun onFailure(call: Call<List<DCUsuario>>, t: Throwable) {
-                //Manejo de error
-                mostrarToast("Error de conexión: " + t.message)
+
+            override fun onFailure(call: Call<DCRegistrarResponse>, t: Throwable) {
+                mostrarToast("Error de red: ${t.message}")
             }
         })
     }
-    */
 
     fun mostrarToast(mensaje: String) {
         if(toast != null) toast!!.cancel()

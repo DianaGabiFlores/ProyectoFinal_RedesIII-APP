@@ -10,6 +10,11 @@
         android:layout_height="150dp"
         android:src="@drawable/ic_launcher_background"/>
 
+    <View
+        android:layout_width="1dp"
+        android:layout_height="match_parent"
+        android:background="@color/white"/>
+
     <LinearLayout
         android:orientation="vertical"
         android:layout_width="match_parent"
@@ -22,31 +27,35 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Nombre de Cafetería"
-            android:textSize="18dp"
+            android:textSize="20sp"
             android:textStyle="bold"/>
 
         <TextView
             android:id="@+id/txtEdificio"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Edificio de Cafetería"/>
+            android:text="Edificio de Cafetería"
+            android:textSize="14sp"/>
 
         <TextView
             android:id="@+id/txtLocal"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Local de Cafetería"/>
+            android:text="Local de Cafetería"
+            android:textSize="14sp"/>
 
         <TextView
             android:id="@+id/txtHorario"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Horario de Cafetería"/>
+            android:text="Horario de Cafetería"
+            android:textSize="14sp"/>
 
         <TextView
             android:id="@+id/btnIniciar"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Ver más..."/>
+            android:text="Ver menús..."
+            android:textSize="14sp"/>
     </LinearLayout>
 </LinearLayout>

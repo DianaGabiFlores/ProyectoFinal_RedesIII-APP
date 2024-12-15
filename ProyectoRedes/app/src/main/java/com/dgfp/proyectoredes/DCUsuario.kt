@@ -7,6 +7,6 @@ data class DCUsuario(
     val Segundo_Apellido: String,
     val Contrasena: String,
     val Telefono: String,
-    val Correo: String,
+    val Email: String,
     val Tipo: String
 )
