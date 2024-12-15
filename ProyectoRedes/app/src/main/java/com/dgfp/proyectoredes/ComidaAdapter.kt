@@ -23,7 +23,7 @@ class ComidaAdapter internal constructor(var context: Activity, datos: ArrayList
         txtNombre.setText(datos[position].getNombre())
         //Precio
         val lblSubtitulo = item.findViewById<TextView>(R.id.precio)
-        lblSubtitulo.setText(datos[position].getPrecio().toString())
+        lblSubtitulo.setText("Precio: $" + datos[position].getPrecio().toString())
         //Imagen
         val imagenProducto = item.findViewById<ImageView>(R.id.imagen)
         imagenProducto.setImageResource(datos[position].getImagen())

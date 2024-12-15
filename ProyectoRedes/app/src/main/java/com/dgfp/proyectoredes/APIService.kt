@@ -11,8 +11,8 @@ interface APIService {
     @POST("login")
     fun loginUsuario(@Body usuario: DCUsuarioLlaves): Call<DCLoginResponse>
 
-    @POST("usuario/nuevo")
-    fun crearUsuario(@Body usuario: DCUsuario): Call<DCUsuario>
+    @POST("usuarios/crear")
+    fun crearUsuario(@Body usuario: DCUsuario): Call<DCRegistrarResponse>
 
     @POST("pedidos")
     fun getPedidos(@Body user: DCUser): Call<List<PedidosInfo>>

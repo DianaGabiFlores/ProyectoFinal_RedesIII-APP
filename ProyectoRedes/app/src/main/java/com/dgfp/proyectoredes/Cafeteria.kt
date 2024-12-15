@@ -30,7 +30,7 @@ class Cafeteria {
         nCafeteria++
         this.idCafeteria = idCafeteria
         this.idSucursal = idSucursal
-        this.imagen = imagen
+        this.imagen = obtenerImagen(idCafeteria)
         this.nombreCafeteria = nombreCafeteria
         if(nombreSucursal != null) {
             this.nombreSucursal = nombreSucursal
@@ -38,6 +38,26 @@ class Cafeteria {
         this.edificio = edificio
         this.local = local
         this.horario = horario
+    }
+
+    fun obtenerImagen(idCafeteria: String): Int {
+        return when (idCafeteria) {
+            "1" -> R.drawable.la_gula
+            "2" -> R.drawable.casa
+            "3" -> R.drawable.casa
+            "4" -> R.drawable.casa
+            "5" -> R.drawable.casa
+            "6" -> R.drawable.casa
+            "7" -> R.drawable.casa
+            "8" -> R.drawable.casa
+            "9" -> R.drawable.casa
+            "10" -> R.drawable.casa
+            "11" -> R.drawable.casa
+            "12" -> R.drawable.casa
+            "13" -> R.drawable.casa
+            "14" -> R.drawable.casa
+            else -> R.drawable.casa
+        }
     }
 
     fun getImagen(): Int {
