@@ -120,12 +120,12 @@ class OrdenarActivity : AppCompatActivity() {
         val apiService = retrofit.create(APIService::class.java)
 
         val objPedido = DCPedido(
-            Id_Usuario = idUsuario,
-            Id_Cafeteria = idCafeteria,
-            Id_Sucursal = idSucursal,
-            Orden = "0",
+            Id_Usuario = idUsuario.toInt(),
+            Id_Cafeteria = idCafeteria.toInt(),
+            Id_Sucursal = idSucursal.toInt(),
+            Orden = 0,
             Pagado = "N",
-            Tiempo = tiempoPreparacion,
+            Tiempo = tiempoPreparacion.toInt(),
             Tipo_pago = tipoPago,
             Fecha = obtenerFechaActual() // Fecha actual en el formato deseado
         )

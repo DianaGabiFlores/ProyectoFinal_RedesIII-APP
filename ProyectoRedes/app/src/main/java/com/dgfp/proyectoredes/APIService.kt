@@ -32,11 +32,15 @@ interface APIService {
     @POST("pedido/entregado")
     fun pedidoEntregado(@Body orden: DCOrden): Call<Boolean>
 
+    @POST("pedido/cancelado")
+    fun pedidoCancelado(@Body orden: DCOrden): Call<Boolean>
+
     @POST("pedido/agregar")
     fun setPedido(@Body pedido: DCPostPedido): Call<DCPedidoResponse>
 
     @GET("telefonos/encargados")
     fun getTelefonosCafeterias(): Call<List<DCTelefonoEncargado>>
+
     @GET("/v2/directions/driving-car")
     suspend fun getRoute(
         @Query("api_key") key: String,

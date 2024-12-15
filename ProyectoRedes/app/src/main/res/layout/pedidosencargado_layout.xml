@@ -26,7 +26,7 @@
             android:id="@+id/QR"
             android:layout_width="150dp"
             android:layout_height="150dp"
-            android:src="@drawable/ic_launcher_background"
+            android:src="@drawable/pedido"
             android:layout_gravity="center_vertical"
             android:layout_marginRight="10dp"
             />
@@ -68,6 +68,13 @@
             <TextView
                 android:id="@+id/FechaP"
                 android:text="Fecha de pedido: "
+                android:textSize="18dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+
+            <TextView
+                android:id="@+id/pagado"
+                android:text="Pagado: "
                 android:textSize="18dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"/>

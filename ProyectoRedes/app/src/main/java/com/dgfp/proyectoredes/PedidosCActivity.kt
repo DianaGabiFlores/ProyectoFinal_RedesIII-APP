@@ -47,7 +47,7 @@ class PedidosCActivity : AppCompatActivity() {
         //Verificar que se obtuviron los datos del usuario
         var datosUsuario: Vector<String> = db.obtenerUsuario()
         if(datosUsuario != null) {
-            Toast.makeText(this, "Bienvenido "+datosUsuario[1], Toast.LENGTH_LONG).show()
+//            Toast.makeText(this, "Bienvenido "+datosUsuario[1], Toast.LENGTH_LONG).show()
         }
 
         val recyclerView: RecyclerView = findViewById(R.id.recyclerView)
@@ -60,7 +60,8 @@ class PedidosCActivity : AppCompatActivity() {
             //Listener
             adaptador1 = PedidosEncAdapter(datos1, object : PedidosEncAdapter.OnItemClickListener {
                 override fun onItemClick(item: PedidosEnc) {
-                    obtenerPedidosEng(datosUsuario[0])
+//                    datos1.clear()
+//                    obtenerPedidosEng(datosUsuario[0])
                     Toast.makeText(applicationContext, "Cliente: " + item.getNombreUsuario(), Toast.LENGTH_SHORT).show()
                 }
             })
@@ -80,6 +81,7 @@ class PedidosCActivity : AppCompatActivity() {
             //Listener
             adaptador = PedidosCAdapter(datos, object : PedidosCAdapter.OnItemClickListener {
                 override fun onItemClick(item: Pedidos) {
+//                    datos1.clear()
                     Toast.makeText(applicationContext, "Cafetería: " + item.getNombreCaferia(), Toast.LENGTH_SHORT).show()
                 }
             })
@@ -115,7 +117,8 @@ class PedidosCActivity : AppCompatActivity() {
                             for (pedido in pedidos) {
                                 num ++
                                 val objPedido = Pedidos(
-                                    R.drawable.ic_launcher_background,
+                                    R.drawable.pedido,
+                                    pedido.Orden,
                                     pedido.Cafeteria,
                                     pedido.Sucursal,
                                     pedido.Comida,
@@ -164,7 +167,7 @@ class PedidosCActivity : AppCompatActivity() {
                             for (pedido in pedidos) {
                                 num ++
                                 val objPedido = PedidosEnc(
-                                    R.drawable.ic_launcher_background,
+                                    R.drawable.pedido,
                                     pedido.Orden,
                                     pedido.NombreUsuario,
                                     pedido.Comida,
