@@ -3,12 +3,15 @@ package com.dgfp.proyectoredes
 import android.Manifest
 import android.annotation.SuppressLint
 import android.content.pm.PackageManager
+import android.location.Location
 import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import com.google.android.gms.location.FusedLocationProviderClient
+import com.google.android.gms.location.LocationServices
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
@@ -24,19 +27,22 @@ import kotlinx.coroutines.launch
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
-
 class PruebaMapa : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMyLocationButtonClickListener,
     GoogleMap.OnMarkerClickListener, GoogleMap.OnInfoWindowClickListener{
 
+    private var toast: Toast? = null
     private lateinit var map: GoogleMap
     var poly: Polyline? = null
+    private lateinit var fusedLocationClient: FusedLocationProviderClient
+    private var lastKnownLocation: Location? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(com.dgfp.proyectoredes.R.layout.mapactivity)
+        fusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
         createMapFragment()
-
     }
+
     private fun createMapFragment() {
         val mapFragment = supportFragmentManager
             .findFragmentById(com.dgfp.proyectoredes.R.id.map) as SupportMapFragment
@@ -50,6 +56,7 @@ class PruebaMapa : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMyLocati
         map.setMaxZoomPreference(25.0f)
         createMarker()
         enableMyLocation()
+
         map.setOnMarkerClickListener { marker ->
             if (marker.isInfoWindowShown) {
                 Toast.makeText(this, "Entro", Toast.LENGTH_SHORT).show()
@@ -57,6 +64,18 @@ class PruebaMapa : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMyLocati
             } else {
                 marker.showInfoWindow()
             }
+
+            if (lastKnownLocation != null) {
+                val currentLatLng = LatLng(
+                    lastKnownLocation!!.latitude,
+                    lastKnownLocation!!.longitude
+                )
+                drawRoute(currentLatLng, marker.position)
+            }
+            else {
+                mostrarToast("No se pudo obtener la ubicación actual.")
+            }
+
             true
         }
 
@@ -149,7 +168,14 @@ class PruebaMapa : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMyLocati
                 // for ActivityCompat#requestPermissions for more details.
                 return
             }
+
             map.isMyLocationEnabled = true
+            fusedLocationClient.lastLocation.addOnSuccessListener { location ->
+                if (location != null) {
+                    lastKnownLocation = location
+                }
+            }
+
         } else {
             requestLocationPermission()
         }
@@ -280,15 +306,14 @@ class PruebaMapa : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMyLocati
 
             Log.i("call", call.toString())
             if (call.isSuccessful) {
-                drawRoute(call.body())
+                //drawRoute(call.body())
             } else {
                 Log.i("aris", "KO")
             }
-
-
         }
     }
 
+    /*
     private fun drawRoute(routeResponse: RouteResponse?) {
         val polyLineOptions = PolylineOptions()
         routeResponse?.features?.first()?.geometry?.coordinates?.forEach {
@@ -298,11 +323,43 @@ class PruebaMapa : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMyLocati
             poly = map.addPolyline(polyLineOptions)
         }
     }
+    */
+    private fun drawRoute(origin: LatLng, destination: LatLng) {
+        CoroutineScope(Dispatchers.IO).launch {
+            val call = getRetrofit().create(APIService::class.java)
+                .getRoute(
+                    "5b3ce3597851110001cf6248822808c5ec3346d5b18e9670fff08967",
+                    "${origin.longitude},${origin.latitude}",
+                    "${destination.longitude},${destination.latitude}"
+                )
+            if (call.isSuccessful) {
+                drawPolyline(call.body())
+            } else {
+                Log.e("RouteError", "No se pudo trazar la ruta")
+            }
+        }
+    }
+    private fun drawPolyline(routeResponse: RouteResponse?) {
+        val polylineOptions = PolylineOptions().color(ContextCompat.getColor(this, android.R.color.holo_blue_light))
+        routeResponse?.features?.first()?.geometry?.coordinates?.forEach {
+            polylineOptions.add(LatLng(it[1], it[0]))
+        }
+        runOnUiThread {
+            poly?.remove()
+            poly = map.addPolyline(polylineOptions)
+        }
+    }
 
     fun getRetrofit(): Retrofit {
         return Retrofit.Builder()
             .baseUrl("https://api.openrouteservice.org/")
             .addConverterFactory(GsonConverterFactory.create())
             .build()
+    }
+
+    fun mostrarToast(mensaje: String) {
+        if(toast != null) toast!!.cancel()
+        toast = Toast.makeText(this@PruebaMapa, mensaje, Toast.LENGTH_LONG)
+        toast!!.show()
     }
 }
