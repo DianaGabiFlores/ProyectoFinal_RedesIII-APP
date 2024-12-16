@@ -26,7 +26,6 @@
     <Spinner
         android:id="@+id/spnTipo"
         android:layout_gravity="center"
-        android:textAlignment="center"
         android:background="@drawable/border"
         android:layout_marginTop="60dp"
         android:layout_width="300dp"
