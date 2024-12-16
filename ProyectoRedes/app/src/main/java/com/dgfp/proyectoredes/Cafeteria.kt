@@ -43,19 +43,19 @@ class Cafeteria {
     fun obtenerImagen(idCafeteria: String): Int {
         return when (idCafeteria) {
             "1" -> R.drawable.la_gula
-            "2" -> R.drawable.casa
-            "3" -> R.drawable.casa
-            "4" -> R.drawable.casa
-            "5" -> R.drawable.casa
-            "6" -> R.drawable.casa
-            "7" -> R.drawable.casa
-            "8" -> R.drawable.casa
-            "9" -> R.drawable.casa
-            "10" -> R.drawable.casa
-            "11" -> R.drawable.casa
-            "12" -> R.drawable.casa
-            "13" -> R.drawable.casa
-            "14" -> R.drawable.casa
+            "2" -> R.drawable.cafe_origenal_de_la_taza
+            "3" -> R.drawable.las_exquisitas
+            "4" -> R.drawable.el_alamo
+            "5" -> R.drawable.yosakura
+            "6" -> R.drawable.finca_santa_veracruz
+            "7" -> R.drawable.comedor_universitario
+            "8" -> R.drawable.comedor_universitario
+            "9" -> R.drawable.cerezza
+            "10" -> R.drawable.chocos_de_la_puri
+            "11" -> R.drawable.nutriletas
+            "12" -> R.drawable.klauck
+            "13" -> R.drawable.cafeteria_norte
+            "14" -> R.drawable.cafeteria_norte
             else -> R.drawable.casa
         }
     }
