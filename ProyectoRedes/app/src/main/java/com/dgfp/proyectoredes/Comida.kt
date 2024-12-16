@@ -33,6 +33,27 @@ class Comida : Serializable {
             "6" -> R.drawable.comida_especial_de_desayuno
             "7" -> R.drawable.comida_enchiladas_verdes
             "8" -> R.drawable.comida_molletes
+            "9" -> R.drawable.comida_charola
+            "10" -> R.drawable.comida_ensalada
+            "11" -> R.drawable.comida_sandwich
+            "12" -> R.drawable.comida_tortaJamon
+            "13" -> R.drawable.comida_Hogdog
+            "14" -> R.drawable.comida_salchipulpus
+            "15" -> R.drawable.comida_americano
+            "16" -> R.drawable.comida_SMango
+            "17" -> R.drawable.comida_chai
+            "18" -> R.drawable.comida_chocoC
+            "19" -> R.drawable.comida_chocoV
+            "20" -> R.drawable.comida_bionico
+            "21" -> R.drawable.comida_taco
+            "22" -> R.drawable.comida_chilaquilesVerdes
+            "23" -> R.drawable.comida_atun
+            "24" -> R.drawable.comida_milanesa
+            "25" -> R.drawable.comida_nigiri_Camaron
+            "26" -> R.drawable.comida_dedosDeQueso
+            "27" -> R.drawable.comida_papas
+            "28" -> R.drawable.comida_limonada
+            "29" -> R.drawable.comida_nigiri_pulpo
             else -> R.drawable.plato
         }
     }
