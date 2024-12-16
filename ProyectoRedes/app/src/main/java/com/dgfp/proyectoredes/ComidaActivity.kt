@@ -97,9 +97,9 @@ class ComidaActivity : AppCompatActivity() {
                             if(menu.Id_Cafeteria == idCafeteria) {
                                 datos.add(
                                     Comida(
-                                        menu.Id_Comida,
                                         menu.Id_Cafeteria,
                                         menu.Id_Sucursal,
+                                        menu.Id_Comida,
                                         menu.Nombre,
                                         menu.Precio.toFloat(),
                                         menu.TiempoPrepa,
