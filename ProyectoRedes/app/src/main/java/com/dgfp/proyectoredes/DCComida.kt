@@ -1,5 +1,5 @@
 package com.dgfp.proyectoredes
 
 data class DCComida(
-    val Id_Comida: String
+    val Id_Comida: Int
 )

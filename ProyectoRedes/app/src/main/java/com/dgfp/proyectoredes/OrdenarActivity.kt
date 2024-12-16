@@ -131,7 +131,7 @@ class OrdenarActivity : AppCompatActivity() {
         )
 
         val objComida = DCComida(
-            Id_Comida = idComida
+            Id_Comida = idComida.toInt()
         )
 
         val objPostPedido = DCPostPedido(
