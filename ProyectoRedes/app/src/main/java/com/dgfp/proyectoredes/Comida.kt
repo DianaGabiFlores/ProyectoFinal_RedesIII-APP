@@ -20,7 +20,21 @@ class Comida : Serializable {
         this.precio = precio
         this.tiempoPreparacion = tiempoPreparacion
         this.ingredientes = ingredientes
-        this.imagen = imagen
+        this.imagen = obtenerImagen(idComida)
+    }
+
+    fun obtenerImagen(idComida: String): Int {
+        return when (idComida) {
+            "1" -> R.drawable.comida_guajolotas
+            "2" -> R.drawable.comida_chilaquiles
+            "3" -> R.drawable.comida_hamburguesa
+            "4" -> R.drawable.comida_ensalada
+            "5" -> R.drawable.comida_quesadillas
+            "6" -> R.drawable.comida_especial_de_desayuno
+            "7" -> R.drawable.comida_enchiladas_verdes
+            "8" -> R.drawable.comida_molletes
+            else -> R.drawable.plato
+        }
     }
 
     fun getIdCafeteria(): String {
