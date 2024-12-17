@@ -97,7 +97,7 @@ class PedidosCAdapter : RecyclerView.Adapter<PedidosCAdapter.PedidosViewHolder> 
         }
         private fun cambiarEstado(orden: Int, view: View) {
             var baseURL = "http://10.0.0.10:3000/"
-            mostrarToast(baseURL, view)
+//            mostrarToast(baseURL, view)
             val retrofit = Retrofit.Builder()
                 .baseUrl(baseURL)
                 .addConverterFactory(GsonConverterFactory.create())

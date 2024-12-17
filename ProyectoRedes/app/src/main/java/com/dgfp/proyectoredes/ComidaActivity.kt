@@ -159,16 +159,16 @@ class ComidaActivity : AppCompatActivity() {
 
     fun contactar(telefono: String) {
         var mensaje: String = "Hola"
-        var instalado: Boolean = isAppInstalled("com.whatsapp")
-
-        if(instalado) {
+//        var instalado: Boolean = isAppInstalled("com.whatsapp")
+//
+//        if(instalado) {
             val intent: Intent = Intent(Intent.ACTION_VIEW)
             intent.setData(Uri.parse("http://api.whatsapp.com/send?phone=$telefono&text=$mensaje"))
             startActivity(intent)
-        }
-        else {
-            mostrarToast("WhatsApp no está instalado.")
-        }
+//        }
+//        else {
+//            mostrarToast("WhatsApp no está instalado.")
+//        }
     }
 
     fun isAppInstalled(aplicacion: String): Boolean {
